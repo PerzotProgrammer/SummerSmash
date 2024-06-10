@@ -25,10 +25,16 @@ public class PlayerDamage : MonoBehaviour
             Hp -= 10;
         }
 
-        if (Hp <= 0)
+        if (!IsAlive())
         {
             SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
             sprite.enabled = false;
         }
+    }
+
+    public bool IsAlive()
+    {
+        if (Hp <= 0) return false;
+        return true;
     }
 }

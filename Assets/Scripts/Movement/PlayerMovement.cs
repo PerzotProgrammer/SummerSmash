@@ -7,15 +7,24 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     private Rigidbody2D PlayerRb;
+    private PlayerDamage PlayerDamage;
 
     void Start()
     {
-        PlayerRb = gameObject.GetComponent<Rigidbody2D>();
+        PlayerRb = GetComponent<Rigidbody2D>();
+        PlayerDamage = GetComponent<PlayerDamage>();
     }
 
     void FixedUpdate()
     {
-        Move();
+        if (PlayerDamage.IsAlive())
+        {
+            Move();
+        }
+        else
+        {
+            Stay();
+        }
     }
 
     void Move()
@@ -26,5 +35,10 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movementVector = new Vector2(moveX, moveY).normalized;
 
         PlayerRb.velocity = new Vector2(movementVector.x * speed, movementVector.y * speed);
+    }
+
+    void Stay()
+    {
+        PlayerRb.velocity = new Vector2(0, 0);
     }
 }
