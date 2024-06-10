@@ -134,9 +134,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6049429981089185085, guid: e795f32a53bd1354eb6cb86754d305c9, type: 3}
+      propertyPath: m_MaskInteraction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7840256440162770064, guid: e795f32a53bd1354eb6cb86754d305c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 7840256440162770064, guid: e795f32a53bd1354eb6cb86754d305c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12517,9 +12521,57 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1900980484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1900980486}
+  - component: {fileID: 1900980485}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1900980485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900980484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a215352370e5ad4d9e9b3cbb7dc3094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 5270958940758628174, guid: a6ab1da92ac1f1141826c2f4a21842bb, type: 3}
+  secondsInterval: 1
+--- !u!4 &1900980486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900980484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.475079, y: -0.66575867, z: -0.041962963}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 674831391}
   - {fileID: 1114619045}
+  - {fileID: 1900980486}

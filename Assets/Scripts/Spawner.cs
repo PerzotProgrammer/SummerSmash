@@ -9,10 +9,12 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private float secondsInterval;
+    private Rigidbody2D PlayerRb;
     private float TimeElapsed;
 
     void Start()
     {
+        PlayerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         TimeElapsed = 0;
     }
 
@@ -29,7 +31,10 @@ public class Spawner : MonoBehaviour
             TimeElapsed = 0;
             foreach (GameObject enemy in enemies)
             {
-                Instantiate(enemy, new Vector2(Random.Range(-10, 10), Random.Range(-10, 10)), quaternion.identity);
+                float randX = Random.Range(-10, 10);
+                float randY = Random.Range(-10, 10);
+                Vector2 pos = new Vector2(randX + PlayerRb.position.x, randY + PlayerRb.position.y);
+                Instantiate(enemy, pos, quaternion.identity);
             }
         }
     }
