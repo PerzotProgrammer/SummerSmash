@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody2D PlayerRb;
     private PlayerDamage PlayerDamage;
+    private Vector3 input;
 
     void Start()
     {
@@ -40,5 +41,10 @@ public class PlayerMovement : MonoBehaviour
     void Stay()
     {
         PlayerRb.velocity = new Vector2(0, 0);
+    }
+
+    public bool IsMovingDown()
+    {
+        return input.x > 0;
     }
 }
