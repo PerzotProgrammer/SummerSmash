@@ -62,11 +62,11 @@ public class PlayerAnimation : MonoBehaviour
 
     private bool MovingUp()
     {
-        return PlayerMovement.MovementDirectionVector().y < 0;
+        return PlayerMovement.MovementDirectionVector().y > 0;
     }
 
     private bool MovingDown()
     {
-        return PlayerMovement.MovementDirectionVector().y > 0;
+        return PlayerMovement.MovementDirectionVector().y < 0;
     }
 }
