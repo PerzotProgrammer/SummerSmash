@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody2D PlayerRb;
     private PlayerDamage PlayerDamage;
-    private Vector3 input;
-
+    private Vector2 MovementVector;
+    
     void Start()
     {
         PlayerRb = GetComponent<Rigidbody2D>();
@@ -33,9 +33,9 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        Vector2 movementVector = new Vector2(moveX, moveY).normalized;
-
-        PlayerRb.velocity = new Vector2(movementVector.x * speed, movementVector.y * speed);
+        MovementVector = new Vector2(moveX, moveY).normalized;
+        
+        PlayerRb.velocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
     }
 
     void Stay()
@@ -43,8 +43,8 @@ public class PlayerMovement : MonoBehaviour
         PlayerRb.velocity = new Vector2(0, 0);
     }
 
-    public bool IsMovingDown()
+    public Vector2 MovementDirectionVector()
     {
-        return input.x > 0;
+        return MovementVector;
     }
 }
