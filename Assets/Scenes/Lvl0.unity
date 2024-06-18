@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 698818245}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15080,17 +15080,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7840256440162770064, guid: e795f32a53bd1354eb6cb86754d305c9, type: 3}
   m_PrefabInstance: {fileID: 674831391}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1386216492 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2959634562102875736, guid: e795f32a53bd1354eb6cb86754d305c9, type: 3}
-  m_PrefabInstance: {fileID: 674831391}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856704647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67b33df057bf036468d654c9b9938254, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1386216496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15103,9 +15092,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e53bafceaf8e8418d5e1e42e0aba39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1386216497}
-  movement: {fileID: 1386216492}
-  isMovingDownParameterName: IsMovingDown
 --- !u!95 &1386216497
 Animator:
   serializedVersion: 5
