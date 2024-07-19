@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class EnemiesDamage : MonoBehaviour
 {
-    //TODO: Sensowny system dmg
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
         }

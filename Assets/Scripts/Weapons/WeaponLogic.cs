@@ -1,18 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class WeaponMovement : MonoBehaviour
+public class WeaponLogic : MonoBehaviour
 {
+    [SerializeField] private GameObject bullet;
+    [CanBeNull] private GameObject ClosestEnemy;
     private float ClosestDistance;
-    private GameObject ClosestEnemy;
-    
+
     void FixedUpdate()
     {
         FindTarget();
         MoveWeapon();
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Fire1")) Shoot();
+    }
+
+    public GameObject GetTarget()
+    {
+        return ClosestEnemy;
     }
 
     private void FindTarget()
@@ -29,15 +41,21 @@ public class WeaponMovement : MonoBehaviour
                 ClosestEnemy = enemy;
             }
         }
-
-        // DEBUG: 
-        Debug.DrawLine(transform.position, ClosestEnemy!.transform.position);
     }
 
     private void MoveWeapon()
     {
-        Vector2 direction = ClosestEnemy.transform.position - transform.position;
+        if (ClosestEnemy is null) return;
+        Vector2 direction = ClosestEnemy!.transform.position - transform.position;
         float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(rotation, Vector3.forward);
+    }
+
+    private void Shoot()
+    {
+        if (ClosestEnemy is not null)
+        {
+            Instantiate(bullet, transform.position, transform.rotation);
+        }
     }
 }
