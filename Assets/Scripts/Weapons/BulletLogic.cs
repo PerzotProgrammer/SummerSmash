@@ -6,21 +6,20 @@ using UnityEngine;
 public class BulletLogic : MonoBehaviour
 {
     [SerializeField] private float speed;
-    private float DistanceToPlayer;
+    [SerializeField] private int damage;
     private Rigidbody2D Rb;
     private GameObject Player;
     private GameObject Target;
 
-    void Start()
+    private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindGameObjectWithTag("Player");
         Target = Player.GetComponentInChildren<WeaponLogic>().GetTarget();
-        Debug.Log(Target);
         Move();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         CheckDistToPlayer();
     }
@@ -34,18 +33,16 @@ public class BulletLogic : MonoBehaviour
     private void CheckDistToPlayer()
     {
         float distance = (Player.transform.position - transform.position).magnitude;
-        if (distance > 25)
-        {
-            Destroy(gameObject);
-        }
-
+        if (distance > 25) Destroy(gameObject);
     }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemies"))
+        if (other.gameObject.CompareTag("Enemies"))
         {
             Destroy(gameObject);
+            other.gameObject.GetComponent<EntityBase>().InflictDamage(damage);
         }
     }
 }

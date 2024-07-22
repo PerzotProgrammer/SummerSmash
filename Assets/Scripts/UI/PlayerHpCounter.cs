@@ -6,23 +6,16 @@ using UnityEngine;
 public class PlayerHpCounter : MonoBehaviour
 {
     private TextMeshProUGUI HpCounter;
-    private PlayerDamage PlayerDamage;
+    private PlayerLogic PlayerLogic;
 
-    void Start()
+    private void Start()
     {
         HpCounter = GetComponent<TextMeshProUGUI>();
-        PlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerDamage>();
+        PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!PlayerDamage.IsAlive())
-        {
-            HpCounter.text = "";
-        }
-        else
-        {
-            HpCounter.text = $"HP: {PlayerDamage.GetHp()}";
-        }
+        HpCounter.text = !PlayerLogic.IsAlive() ? "" : $"HP: {PlayerLogic.GetHp()}";
     }
 }

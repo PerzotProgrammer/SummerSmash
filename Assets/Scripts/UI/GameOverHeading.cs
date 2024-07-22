@@ -6,19 +6,16 @@ using UnityEngine;
 public class GameOver : MonoBehaviour
 {
     private TextMeshProUGUI GameOverHeading;
-    private PlayerDamage PlayerDamage;
+    private PlayerLogic PlayerLogic;
 
-    void Start()
+    private void Start()
     {
         GameOverHeading = GetComponent<TextMeshProUGUI>();
-        PlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerDamage>();
+        PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!PlayerDamage.IsAlive())
-        {
-            GameOverHeading.text = "game over christopher";
-        }
+        if (!PlayerLogic.IsAlive()) GameOverHeading.text = "game over christopher";
     }
 }

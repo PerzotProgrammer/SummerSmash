@@ -12,13 +12,13 @@ public class Spawner : MonoBehaviour
     private Rigidbody2D PlayerRb;
     private float TimeElapsed;
 
-    void Start()
+    private void Start()
     {
         PlayerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
         TimeElapsed = 0;
     }
 
-    void Update()
+    private void Update()
     {
         Spawn();
     }

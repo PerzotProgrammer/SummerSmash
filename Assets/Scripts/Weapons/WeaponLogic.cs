@@ -1,30 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class WeaponLogic : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [CanBeNull] private GameObject ClosestEnemy;
+    private GameObject ClosestEnemy;
     private float ClosestDistance;
 
-    void FixedUpdate()
+
+    private void Update()
     {
         FindTarget();
         MoveWeapon();
-    }
-
-    void Update()
-    {
-        if (Input.GetButtonDown("Fire1")) Shoot();
-    }
-
-    public GameObject GetTarget()
-    {
-        return ClosestEnemy;
+        if (Input.GetButtonDown("Fire1") && ClosestEnemy is not null)
+        {
+            Shoot();
+        }
     }
 
     private void FindTarget()
@@ -53,9 +47,11 @@ public class WeaponLogic : MonoBehaviour
 
     private void Shoot()
     {
-        if (ClosestEnemy is not null)
-        {
-            Instantiate(bullet, transform.position, transform.rotation);
-        }
+        Instantiate(bullet, transform.position, transform.rotation);
+    }
+
+    public GameObject GetTarget()
+    {
+        return ClosestEnemy;
     }
 }

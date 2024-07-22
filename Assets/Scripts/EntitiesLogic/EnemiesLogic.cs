@@ -3,35 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemiesMovement : MonoBehaviour
+public class EnemiesLogic : EntityBase
 {
-    [SerializeField] private float speed;
     [SerializeField] private float distanceToSpotPlayer;
-    private Rigidbody2D Rb;
     private GameObject Player;
-    private PlayerDamage PlayerDamage;
+    private PlayerLogic PlayerLogic;
     private float Distance;
 
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindWithTag("Player");
-        PlayerDamage = Player.GetComponent<PlayerDamage>();
+        PlayerLogic = Player.GetComponent<PlayerLogic>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (PlayerDamage.IsAlive())
+        if (PlayerLogic.IsAlive()) FollowPlayer();
+        else Stay();
+
+        if (!IsAlive()) Destroy(gameObject);
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
-            FollowPlayer();
-        }
-        else
-        {
-            Stay();
+            InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
         }
     }
 
-    void FollowPlayer()
+    private void FollowPlayer()
     {
         Distance = Vector2.Distance(transform.position, Player.transform.position);
         if (Distance < distanceToSpotPlayer)
@@ -39,10 +42,5 @@ public class EnemiesMovement : MonoBehaviour
             transform.position =
                 Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.fixedDeltaTime);
         }
-    }
-
-    void Stay()
-    {
-        Rb.velocity = new Vector2(0, 0);
     }
 }
