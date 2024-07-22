@@ -9,12 +9,21 @@ public class EnemiesLogic : EntityBase
     private GameObject Player;
     private PlayerLogic PlayerLogic;
     private float Distance;
-
+    [SerializeField] FloatingHealthBar healthBar;
+    
+// other.gameObject.GetComponent<EntityBase>().InflictDamage(damage);
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindWithTag("Player");
         PlayerLogic = Player.GetComponent<PlayerLogic>();
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        healthBar.UpdateHealthBar(hp, maxHp);
+    }
+
+    public override void InflictDamage(int damage){
+        hp -= damage;
+        healthBar.UpdateHealthBar(hp, maxHp);
     }
 
     private void FixedUpdate()

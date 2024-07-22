@@ -6,6 +6,7 @@ public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField] protected float speed;
     [SerializeField] protected int hp;
+    [SerializeField] protected int maxHp;
     [SerializeField] protected int colisionDamage;
     protected Rigidbody2D Rb;
 
@@ -25,9 +26,10 @@ public abstract class EntityBase : MonoBehaviour
         return hp;
     }
 
-    public void InflictDamage(int damage)
+    public virtual void InflictDamage(int damage)
     {
         hp -= damage;
+        
     }
 
     public int GetColisionDamage()
