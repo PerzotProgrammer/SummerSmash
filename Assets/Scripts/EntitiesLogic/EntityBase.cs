@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,10 @@ using UnityEngine;
 public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField] protected float speed;
-    [SerializeField] protected int hp;
     [SerializeField] protected int maxHp;
     [SerializeField] protected int colisionDamage;
+    protected int Hp;
+    protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
 
     protected void Stay()
@@ -17,19 +19,26 @@ public abstract class EntityBase : MonoBehaviour
 
     public bool IsAlive()
     {
-        if (hp <= 0) return false;
+        if (Hp <= 0) return false;
         return true;
     }
 
     public int GetHp()
     {
-        return hp;
+        return Hp;
     }
 
-    public virtual void InflictDamage(int damage)
+    public int GetMaxHp()
     {
-        hp -= damage;
-        
+        return maxHp;
+    }
+
+    public void InflictDamage(int damage)
+    {
+        Hp -= damage;
+        if (Hp < maxHp) HealthBar.ShowHealthBar();
+
+        HealthBar.UpdateHealthBar();
     }
 
     public int GetColisionDamage()

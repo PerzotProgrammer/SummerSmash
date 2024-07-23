@@ -11,13 +11,16 @@ public class PlayerLogic : EntityBase
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
-        hp = 100;
+        HealthBar = GetComponentInChildren<HealthBar>();
+        Hp = maxHp;
+        HealthBar.HideHealthBar();
     }
 
     private void FixedUpdate()
     {
         if (IsAlive()) Move();
         else Stay();
+        if (!IsAlive()) gameObject.SetActive(false);
     }
 
     private void Move()
@@ -33,13 +36,6 @@ public class PlayerLogic : EntityBase
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (!IsAlive())
-        {
-            SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-            sprite.enabled = false;
-            return;
-        }
-
         if (other.gameObject.CompareTag("Enemies"))
         {
             InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());

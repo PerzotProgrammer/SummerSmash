@@ -9,28 +9,21 @@ public class EnemiesLogic : EntityBase
     private GameObject Player;
     private PlayerLogic PlayerLogic;
     private float Distance;
-    [SerializeField] FloatingHealthBar healthBar;
-    
-// other.gameObject.GetComponent<EntityBase>().InflictDamage(damage);
+
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindWithTag("Player");
         PlayerLogic = Player.GetComponent<PlayerLogic>();
-        healthBar = GetComponentInChildren<FloatingHealthBar>();
-        healthBar.UpdateHealthBar(hp, maxHp);
-    }
-
-    public override void InflictDamage(int damage){
-        hp -= damage;
-        healthBar.UpdateHealthBar(hp, maxHp);
+        HealthBar = GetComponentInChildren<HealthBar>();
+        Hp = maxHp;
+        // HealthBar.HideHealthBar(); // TODO: Coś tutaj kur*a nie działa
     }
 
     private void FixedUpdate()
     {
         if (PlayerLogic.IsAlive()) FollowPlayer();
         else Stay();
-
         if (!IsAlive()) Destroy(gameObject);
     }
 
