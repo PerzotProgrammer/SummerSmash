@@ -10,6 +10,8 @@ public class BulletLogic : MonoBehaviour
     private Rigidbody2D Rb;
     private GameObject Player;
     private GameObject Target;
+    private float TimeElapsed;
+
 
     private void Start()
     {
@@ -21,7 +23,9 @@ public class BulletLogic : MonoBehaviour
 
     private void FixedUpdate()
     {
+        TimeElapsed += Time.fixedDeltaTime;
         CheckDistToPlayer();
+        if (TimeElapsed >= 0.5) RotateAnim();
     }
 
     private void Move()
@@ -44,5 +48,13 @@ public class BulletLogic : MonoBehaviour
             Destroy(gameObject);
             other.gameObject.GetComponent<EntityBase>().InflictDamage(damage);
         }
+    }
+
+    private void RotateAnim()
+    {
+        TimeElapsed = 0;
+        transform.localScale = new Vector3(1, transform.localScale.y * -1, 1);
+        // Animacja obrotu po czasie
+        // Efektem ubocznym jest zmniejszanie się po czasie strumienia wody co wygląda cool
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8565502676949096433}
   m_Layer: 0
   m_Name: WeaponParent
-  m_TagString: Untagged
+  m_TagString: WeaponParent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f86a2a69662745aa7a04421d5ae33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 4428798470963034860, guid: 82ab2740f86b6f74fb7c896697a90c10, type: 3}
+  weapon: {fileID: 7964599774750948523}
 --- !u!1 &4320916861036281059
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,13 +265,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7243469254117252312}
     m_Modifications:
-    - target: {fileID: 1078552824650271197, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4897593702143114693, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.925
+      value: 0.632
       objectReference: {fileID: 0}
     - target: {fileID: 4897593702143114693, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -311,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7027185974400555660, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
       propertyPath: m_Name
-      value: Pistol
+      value: WaterPistol
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -323,6 +319,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4897593702143114693, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
   m_PrefabInstance: {fileID: 1081538072240137767}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7964599774750948523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7027185974400555660, guid: 22c064da9fa51d543a8cdc6120048fdf, type: 3}
+  m_PrefabInstance: {fileID: 1081538072240137767}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4707550736606443170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -331,25 +332,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7840256440162770064}
     m_Modifications:
-    - target: {fileID: 404126732450024134, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 404126732450024134, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1102694136980756553, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1335694434699580465, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072659884717511450, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6114947931385893616, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
       propertyPath: m_Pivot.x

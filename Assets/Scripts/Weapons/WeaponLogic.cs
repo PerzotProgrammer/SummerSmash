@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WeaponLogic : MonoBehaviour
 {
-    [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject weapon; // Na przyszłość, jakbyśmy wprowadzili więcej broni
     private GameObject ClosestEnemy;
     private float ClosestDistance;
 
@@ -15,10 +15,6 @@ public class WeaponLogic : MonoBehaviour
     {
         FindTarget();
         MoveWeapon();
-        if (Input.GetButtonDown("Fire1") && ClosestEnemy is not null)
-        {
-            Shoot();
-        }
     }
 
     private void FindTarget()
@@ -43,11 +39,6 @@ public class WeaponLogic : MonoBehaviour
         Vector2 direction = ClosestEnemy!.transform.position - transform.position;
         float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(rotation, Vector3.forward);
-    }
-
-    private void Shoot()
-    {
-        Instantiate(bullet, transform.position, transform.rotation);
     }
 
     public GameObject GetTarget()
