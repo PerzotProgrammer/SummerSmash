@@ -32,12 +32,21 @@ public class ShootingLogic : MonoBehaviour
         LoadedBullets -= 1;
         TimeElapsed = 0;
         Instantiate(bullet, transform.position, transform.rotation);
-        Debug.Log($"MAG SIZE: {LoadedBullets}/{maxMagazineSize}"); // TODO: UI z ilością pocisków + reload
     }
 
     private void Reload()
     {
         TimeElapsed = reloadTime;
-        LoadedBullets = maxMagazineSize;
+        LoadedBullets = maxMagazineSize; // TODO: LEPSZE ROZWIĄZANIE CZASU PRZEŁADOWANIA (Coroutine czy coś (wszędzie by się to przydało :P))
+    }
+
+    public int GetMagazineSize()
+    {
+        return maxMagazineSize;
+    }
+
+    public int GetLoadedBullets()
+    {
+        return LoadedBullets;
     }
 }
