@@ -175,7 +175,7 @@ MonoBehaviour:
   speed: 3
   maxHp: 50
   colisionDamage: 10
-  distanceToSpotPlayer: 7.5
+  distanceToSpotPlayer: 10
 --- !u!1001 &7259488735599007940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,14 +195,6 @@ PrefabInstance:
     - target: {fileID: 1102694136980756553, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1335694434699580465, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2072659884717511450, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6114947931385893616, guid: 5b1fd1e28001ce645afa5c6db68fcc9e, type: 3}
       propertyPath: m_Pivot.x

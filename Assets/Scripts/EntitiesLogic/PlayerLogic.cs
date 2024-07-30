@@ -13,7 +13,6 @@ public class PlayerLogic : EntityBase
         Rb = GetComponent<Rigidbody2D>();
         HealthBar = GetComponentInChildren<HealthBar>();
         Hp = maxHp;
-        HealthBar.HideHealthBar();
     }
 
     private void FixedUpdate()

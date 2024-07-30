@@ -11,6 +11,7 @@ public abstract class EntityBase : MonoBehaviour
     protected int Hp;
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
+    public static int KillCounter;
 
     protected void Stay()
     {
@@ -21,6 +22,11 @@ public abstract class EntityBase : MonoBehaviour
     {
         if (Hp <= 0) return false;
         return true;
+    }
+
+    public bool HasMaxHp()
+    {
+        return Hp == maxHp;
     }
 
     public int GetHp()
@@ -36,8 +42,6 @@ public abstract class EntityBase : MonoBehaviour
     public void InflictDamage(int damage)
     {
         Hp -= damage;
-        if (Hp < maxHp) HealthBar.ShowHealthBar();
-
         HealthBar.UpdateHealthBar();
     }
 

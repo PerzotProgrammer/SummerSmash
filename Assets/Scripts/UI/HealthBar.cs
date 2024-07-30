@@ -13,20 +13,23 @@ public class HealthBar : MonoBehaviour
     {
         Slider = GetComponentInChildren<Slider>();
         EntityBase = GetComponentInParent<EntityBase>();
+        HideHealthBar();
+    }
+
+    private void HideHealthBar()
+    {
+        Slider.gameObject.SetActive(false);
+    }
+
+    private void ShowHealthBar()
+    {
+        Slider.gameObject.SetActive(true);
     }
 
     public void UpdateHealthBar()
     {
         Slider.value = (float)EntityBase.GetHp() / EntityBase.GetMaxHp();
-    }
-
-    public void HideHealthBar()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public void ShowHealthBar()
-    {
-        gameObject.SetActive(true);
+        if (EntityBase.HasMaxHp()) HideHealthBar();
+        else ShowHealthBar();
     }
 }

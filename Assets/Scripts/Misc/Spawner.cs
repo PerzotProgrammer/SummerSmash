@@ -9,6 +9,8 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private float secondsInterval;
+    [SerializeField] private float maxSpawnDistance;
+    [SerializeField] private float minSpawnDistance;
     private Rigidbody2D PlayerRb;
     private float TimeElapsed;
 
@@ -31,11 +33,24 @@ public class Spawner : MonoBehaviour
             TimeElapsed = 0;
             foreach (GameObject enemy in enemies)
             {
-                float randX = Random.Range(-10, 10);
-                float randY = Random.Range(-10, 10);
-                Vector2 pos = new Vector2(randX + PlayerRb.position.x, randY + PlayerRb.position.y);
-                Instantiate(enemy, pos, quaternion.identity);
+                Instantiate(enemy, RollPosition(), quaternion.identity);
             }
         }
+    }
+
+    private Vector2 RollPosition()
+    {
+        Vector2 pos;
+        float distance;
+
+        do // Moje pierwsze w życiu poważne użycie do while
+        {
+            float randX = Random.Range(-maxSpawnDistance, maxSpawnDistance);
+            float randY = Random.Range(-maxSpawnDistance, maxSpawnDistance);
+            pos = new Vector2(randX + PlayerRb.position.x, randY + PlayerRb.position.y);
+            distance = Vector2.Distance(pos, PlayerRb.transform.position);
+        } while (distance < minSpawnDistance);
+
+        return pos;
     }
 }

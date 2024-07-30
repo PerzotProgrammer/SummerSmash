@@ -7,24 +7,26 @@ public class EnemiesLogic : EntityBase
 {
     [SerializeField] private float distanceToSpotPlayer;
     private GameObject Player;
-    private PlayerLogic PlayerLogic;
     private float Distance;
 
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindWithTag("Player");
-        PlayerLogic = Player.GetComponent<PlayerLogic>();
         HealthBar = GetComponentInChildren<HealthBar>();
         Hp = maxHp;
-        // HealthBar.HideHealthBar(); // TODO: Coś tutaj kur*a nie działa
     }
 
     private void FixedUpdate()
     {
-        if (PlayerLogic.IsAlive()) FollowPlayer();
+        if (Player is not null) FollowPlayer();
         else Stay();
-        if (!IsAlive()) Destroy(gameObject);
+        if (!IsAlive())
+        {
+            KillCounter += 1;
+            Destroy(gameObject);
+        }
+        DespawnIfTooFar();
     }
 
 
@@ -44,5 +46,11 @@ public class EnemiesLogic : EntityBase
             transform.position =
                 Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.fixedDeltaTime);
         }
+    }
+
+    private void DespawnIfTooFar()
+    {
+        Distance = Vector2.Distance(transform.position, Player.transform.position);
+        if (Distance > distanceToSpotPlayer * 3) Destroy(gameObject);
     }
 }

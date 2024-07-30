@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     private TextMeshProUGUI HpCounter;
     private TextMeshProUGUI BulletCounter;
+    private TextMeshProUGUI KillCounter;
     private TextMeshProUGUI GameOverHeading;
     private PlayerLogic PlayerLogic;
     private ShootingLogic ShootingLogic;
@@ -15,6 +16,7 @@ public class UIController : MonoBehaviour
     {
         HpCounter = GameObject.Find("HpCounter").GetComponent<TextMeshProUGUI>();
         BulletCounter = GameObject.Find("BulletCounter").GetComponent<TextMeshProUGUI>();
+        KillCounter = GameObject.Find("KillCounter").GetComponent<TextMeshProUGUI>();
         GameOverHeading = GameObject.Find("GameOverHeading").GetComponent<TextMeshProUGUI>();
         PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
         ShootingLogic = GameObject.Find("BulletSpawner").GetComponent<ShootingLogic>();
@@ -27,6 +29,7 @@ public class UIController : MonoBehaviour
         {
             HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
             BulletCounter.text = $"Bullets: {ShootingLogic.GetLoadedBullets()}/{ShootingLogic.GetMagazineSize()}";
+            KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
             GameOverHeading.text = "";
         }
         else
