@@ -8,7 +8,7 @@ public class EnemiesLogic : EntityBase
     [SerializeField] private float distanceToSpotPlayer;
     private GameObject Player;
     private float Distance;
-    
+
 
     private void Start()
     {
@@ -21,15 +21,18 @@ public class EnemiesLogic : EntityBase
 
     private void FixedUpdate()
     {
-        if (Player is not null) FollowPlayer();
+        if (Player is not null)
+        {
+            FollowPlayer();
+            DespawnIfTooFar();
+        }
         else Stay();
+
         if (!IsAlive())
         {
             KillCounter += 1;
             Despawn();
         }
-
-        DespawnIfTooFar();
     }
 
 

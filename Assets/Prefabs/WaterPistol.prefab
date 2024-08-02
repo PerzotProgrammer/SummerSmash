@@ -132,3 +132,4 @@ MonoBehaviour:
   bullet: {fileID: 4428798470963034860, guid: 82ab2740f86b6f74fb7c896697a90c10, type: 3}
   maxMagazineSize: 10
   reloadTime: 2.5
+  shootingCooldown: 1

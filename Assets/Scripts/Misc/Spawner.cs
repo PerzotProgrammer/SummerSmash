@@ -11,31 +11,32 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float secondsInterval;
     [SerializeField] private float maxSpawnDistance;
     [SerializeField] private float minSpawnDistance;
+    private PlayerLogic PlayerLogic;
     private Rigidbody2D PlayerRb;
-    private float TimeElapsed;
+    private bool CanSpawn;
 
     private void Start()
     {
+        PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
         PlayerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
-        TimeElapsed = 0;
+        CanSpawn = true;
     }
 
     private void Update()
     {
-        Spawn();
+        if (CanSpawn && PlayerLogic.IsAlive()) StartCoroutine(nameof(Spawn));
     }
 
-    private void Spawn()
+    private IEnumerator Spawn()
     {
-        TimeElapsed += Time.deltaTime;
-        if (TimeElapsed >= secondsInterval)
+        foreach (GameObject enemy in enemies) // TODO: System losowania przeciwników (jak będzie ich więcej)
         {
-            TimeElapsed = 0;
-            foreach (GameObject enemy in enemies)
-            {
-                Instantiate(enemy, RollPosition(), quaternion.identity);
-            }
+            Instantiate(enemy, RollPosition(), quaternion.identity);
         }
+
+        CanSpawn = false;
+        yield return new WaitForSeconds(secondsInterval);
+        CanSpawn = true;
     }
 
     private Vector2 RollPosition()

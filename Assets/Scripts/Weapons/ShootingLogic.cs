@@ -8,36 +8,45 @@ public class ShootingLogic : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private int maxMagazineSize;
     [SerializeField] private float reloadTime;
+    [SerializeField] private float shootingCooldown;
     private WeaponLogic WeaponLogic;
     private int LoadedBullets;
-    private float TimeElapsed;
+    private bool CanShoot;
+    private bool IsReloading;
 
     private void Start()
     {
         WeaponLogic = GameObject.FindGameObjectWithTag("WeaponParent").GetComponent<WeaponLogic>();
         LoadedBullets = maxMagazineSize;
-        reloadTime = -reloadTime; // Flip znaku, aby łatwiej się ustawiało
+        CanShoot = true;
     }
 
     private void Update()
     {
-        TimeElapsed += Time.deltaTime;
-        if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null && LoadedBullets > 0 &&
-            TimeElapsed > 0.5) Shoot();
-        else if (Input.GetButtonDown("Fire2")) Reload(); // TODO: PRZEŁADOWANIE NA RAZIE NA PRAWYM MYSZY
+        if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(Shoot));
+        if (Input.GetButtonDown("Fire2") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(Reload));
+        // TODO: PRZEŁADOWANIE NA RAZIE NA PRAWYM MYSZY
     }
 
-    private void Shoot()
+
+    private IEnumerator Shoot()
     {
-        LoadedBullets -= 1;
-        TimeElapsed = 0;
-        Instantiate(bullet, transform.position, transform.rotation);
+        if (CanShoot && LoadedBullets > 0 && !IsReloading)
+        {
+            LoadedBullets -= 1;
+            Instantiate(bullet, transform.position, transform.rotation);
+            CanShoot = false;
+            yield return new WaitForSeconds(shootingCooldown);
+            CanShoot = true;
+        }
     }
 
-    private void Reload()
+    private IEnumerator Reload()
     {
-        TimeElapsed = reloadTime;
-        LoadedBullets = maxMagazineSize; // TODO: LEPSZE ROZWIĄZANIE CZASU PRZEŁADOWANIA (Coroutine czy coś (wszędzie by się to przydało :P))
+        IsReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        LoadedBullets = maxMagazineSize;
+        IsReloading = false;
     }
 
     public int GetMagazineSize()
@@ -48,5 +57,10 @@ public class ShootingLogic : MonoBehaviour
     public int GetLoadedBullets()
     {
         return LoadedBullets;
+    }
+
+    public bool IsOnReload()
+    {
+        return IsReloading;
     }
 }

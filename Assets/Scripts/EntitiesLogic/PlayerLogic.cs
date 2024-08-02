@@ -7,7 +7,6 @@ public class PlayerLogic : EntityBase
 {
     private Vector2 MovementVector;
 
-
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
