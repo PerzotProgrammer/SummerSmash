@@ -21,7 +21,7 @@ public abstract class EntityBase : MonoBehaviour
 
     public bool IsAlive()
     {
-        return Hp <= 0;
+        return Hp > 0;
     }
 
     public bool HasMaxHp()
