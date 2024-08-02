@@ -13,6 +13,7 @@ public class PlayerLogic : EntityBase
         Rb = GetComponent<Rigidbody2D>();
         HealthBar = GetComponentInChildren<HealthBar>();
         Hp = maxHp;
+        Enemies = new List<EnemiesLogic>();
     }
 
     private void FixedUpdate()
@@ -28,7 +29,6 @@ public class PlayerLogic : EntityBase
         float moveY = Input.GetAxisRaw("Vertical");
 
         MovementVector = new Vector2(moveX, moveY).normalized;
-
         Rb.velocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
     }
 

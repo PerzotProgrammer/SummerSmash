@@ -12,6 +12,7 @@ public abstract class EntityBase : MonoBehaviour
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
     public static int KillCounter;
+    public static List<EnemiesLogic> Enemies;
 
     protected void Stay()
     {
@@ -20,8 +21,7 @@ public abstract class EntityBase : MonoBehaviour
 
     public bool IsAlive()
     {
-        if (Hp <= 0) return false;
-        return true;
+        return Hp <= 0;
     }
 
     public bool HasMaxHp()

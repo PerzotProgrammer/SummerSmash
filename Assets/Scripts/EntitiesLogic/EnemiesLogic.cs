@@ -8,9 +8,11 @@ public class EnemiesLogic : EntityBase
     [SerializeField] private float distanceToSpotPlayer;
     private GameObject Player;
     private float Distance;
+    
 
     private void Start()
     {
+        Enemies.Add(this);
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.FindWithTag("Player");
         HealthBar = GetComponentInChildren<HealthBar>();
@@ -24,8 +26,9 @@ public class EnemiesLogic : EntityBase
         if (!IsAlive())
         {
             KillCounter += 1;
-            Destroy(gameObject);
+            Despawn();
         }
+
         DespawnIfTooFar();
     }
 
@@ -51,6 +54,12 @@ public class EnemiesLogic : EntityBase
     private void DespawnIfTooFar()
     {
         Distance = Vector2.Distance(transform.position, Player.transform.position);
-        if (Distance > distanceToSpotPlayer * 3) Destroy(gameObject);
+        if (Distance > distanceToSpotPlayer * 3) Despawn();
+    }
+
+    private void Despawn()
+    {
+        Enemies.Remove(this);
+        Destroy(gameObject);
     }
 }
