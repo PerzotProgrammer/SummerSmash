@@ -175,6 +175,7 @@ MonoBehaviour:
   speed: 3
   maxHp: 50
   colisionDamage: 10
+  damageCooldownTime: 0.1
   distanceToSpotPlayer: 10
 --- !u!1001 &7259488735599007940
 PrefabInstance:

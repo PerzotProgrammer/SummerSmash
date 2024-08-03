@@ -36,7 +36,7 @@ public class EnemiesLogic : EntityBase
     }
 
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

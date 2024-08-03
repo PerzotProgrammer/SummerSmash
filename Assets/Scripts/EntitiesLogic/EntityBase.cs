@@ -8,11 +8,21 @@ public abstract class EntityBase : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected int maxHp;
     [SerializeField] protected int colisionDamage;
+    private bool IsOnDamageCooldown;
     protected int Hp;
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
     public static int KillCounter;
     public static List<EnemiesLogic> Enemies;
+
+    private IEnumerator DamageCooldown(int damage)
+    {
+        IsOnDamageCooldown = true;
+        Hp -= damage;
+        HealthBar.UpdateHealthBar();
+        yield return new WaitForSeconds(0.5f); // Cooldown "taranowania"
+        IsOnDamageCooldown = false;
+    }
 
     protected void Stay()
     {
@@ -39,10 +49,9 @@ public abstract class EntityBase : MonoBehaviour
         return maxHp;
     }
 
-    public void InflictDamage(int damage)
+    public void InflictDamage(int damage, bool fromBullet = false)
     {
-        Hp -= damage;
-        HealthBar.UpdateHealthBar();
+        if (!IsOnDamageCooldown || fromBullet) StartCoroutine(nameof(DamageCooldown), damage);
     }
 
     public int GetColisionDamage()

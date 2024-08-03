@@ -46,7 +46,7 @@ public class BulletLogic : MonoBehaviour
         if (other.gameObject.CompareTag("Enemies"))
         {
             Destroy(gameObject);
-            other.gameObject.GetComponent<EntityBase>().InflictDamage(damage);
+            other.gameObject.GetComponent<EntityBase>().InflictDamage(damage, true);
         }
     }
 
