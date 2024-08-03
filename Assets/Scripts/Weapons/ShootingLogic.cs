@@ -16,20 +16,20 @@ public class ShootingLogic : MonoBehaviour
 
     private void Start()
     {
-        WeaponLogic = GameObject.FindGameObjectWithTag("WeaponParent").GetComponent<WeaponLogic>();
+        WeaponLogic = GameObject.Find("WeaponParent").GetComponent<WeaponLogic>();
         LoadedBullets = maxMagazineSize;
         CanShoot = true;
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(Shoot));
-        if (Input.GetButtonDown("Fire2") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(Reload));
+        if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(ShootCoroutine));
+        if (Input.GetButtonDown("Fire2") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(ReloadCoroutine));
         // TODO: PRZEŁADOWANIE NA RAZIE NA PRAWYM MYSZY
     }
 
 
-    private IEnumerator Shoot()
+    private IEnumerator ShootCoroutine()
     {
         if (CanShoot && LoadedBullets > 0 && !IsReloading)
         {
@@ -41,7 +41,7 @@ public class ShootingLogic : MonoBehaviour
         }
     }
 
-    private IEnumerator Reload()
+    private IEnumerator ReloadCoroutine()
     {
         IsReloading = true;
         yield return new WaitForSeconds(reloadTime);

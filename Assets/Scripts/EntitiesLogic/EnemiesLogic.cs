@@ -12,11 +12,9 @@ public class EnemiesLogic : EntityBase
 
     private void Start()
     {
+        InitBase();
         Enemies.Add(this);
-        Rb = GetComponent<Rigidbody2D>();
-        Player = GameObject.FindWithTag("Player");
-        HealthBar = GetComponentInChildren<HealthBar>();
-        Hp = maxHp;
+        Player = GameObject.Find("Player");
     }
 
     private void FixedUpdate()

@@ -16,7 +16,7 @@ public class BulletLogic : MonoBehaviour
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.Find("Player");
         Target = Player.GetComponentInChildren<WeaponLogic>().GetTarget();
         Move();
     }

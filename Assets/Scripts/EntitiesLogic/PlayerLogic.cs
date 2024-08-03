@@ -6,12 +6,11 @@ using UnityEngine;
 public class PlayerLogic : EntityBase
 {
     private Vector2 MovementVector;
+    private bool IsOnSpeedUp;
 
     private void Start()
     {
-        Rb = GetComponent<Rigidbody2D>();
-        HealthBar = GetComponentInChildren<HealthBar>();
-        Hp = maxHp;
+        InitBase();
         Enemies = new List<EnemiesLogic>();
     }
 
@@ -38,6 +37,33 @@ public class PlayerLogic : EntityBase
         {
             InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
         }
+    }
+
+    private IEnumerator SpeedUpCoroutine(float duration)
+    {
+        float prevSpeed = speed;
+        IsOnSpeedUp = true;
+        speed *= 1.5f;
+        yield return new WaitForSeconds(duration);
+        speed = prevSpeed;
+        IsOnSpeedUp = false;
+    }
+
+    public void SpeedUp(float duration)
+    { 
+        StartCoroutine(nameof(SpeedUpCoroutine), duration);
+    }
+
+    public void HealHp(int healedHp)
+    {
+        Hp += healedHp;
+        if (Hp > maxHp) Hp = maxHp;
+        HealthBar.UpdateHealthBar();
+    }
+
+    public bool IsOnSpeedBoost()
+    {
+        return IsOnSpeedUp;
     }
 
     public Vector2 GetMovementVector()

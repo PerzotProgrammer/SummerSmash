@@ -8,35 +8,50 @@ using Random = UnityEngine.Random;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemies;
-    [SerializeField] private float secondsInterval;
+    [SerializeField] private GameObject[] pickups;
+    [SerializeField] private float enemySpawnCooldown;
+    [SerializeField] private float pickupSpawnCooldown;
     [SerializeField] private float maxSpawnDistance;
     [SerializeField] private float minSpawnDistance;
     private PlayerLogic PlayerLogic;
     private Rigidbody2D PlayerRb;
-    private bool CanSpawn;
+    private bool EnemySpawnCooldown;
+    private bool PickupSpawnCooldown;
 
     private void Start()
     {
-        PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
-        PlayerRb = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
-        CanSpawn = true;
+        PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
+        PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (CanSpawn && PlayerLogic.IsAlive()) StartCoroutine(nameof(Spawn));
+        if (!EnemySpawnCooldown && PlayerLogic.IsAlive()) StartCoroutine(nameof(SpawnEnemyCoroutine));
+        if (!PickupSpawnCooldown && PlayerLogic.IsAlive()) StartCoroutine(nameof(SpawnPickupCoroutine));
     }
 
-    private IEnumerator Spawn()
+    private IEnumerator SpawnEnemyCoroutine()
     {
         foreach (GameObject enemy in enemies) // TODO: System losowania przeciwników (jak będzie ich więcej)
         {
             Instantiate(enemy, RollPosition(), quaternion.identity);
         }
 
-        CanSpawn = false;
-        yield return new WaitForSeconds(secondsInterval);
-        CanSpawn = true;
+        EnemySpawnCooldown = true;
+        yield return new WaitForSeconds(enemySpawnCooldown);
+        EnemySpawnCooldown = false;
+    }
+
+    private IEnumerator SpawnPickupCoroutine()
+    {
+        foreach (GameObject pickup in pickups)
+        {
+            Instantiate(pickup, RollPosition(), quaternion.identity);
+        }
+
+        PickupSpawnCooldown = true;
+        yield return new WaitForSeconds(pickupSpawnCooldown);
+        PickupSpawnCooldown = false;
     }
 
     private Vector2 RollPosition()

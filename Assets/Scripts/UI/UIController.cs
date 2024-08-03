@@ -20,7 +20,7 @@ public class UIController : MonoBehaviour
         KillCounter = GameObject.Find("KillCounter").GetComponent<TextMeshProUGUI>();
         ReloadIndicator = GameObject.Find("ReloadIndicator").GetComponent<TextMeshProUGUI>();
         GameOverHeading = GameObject.Find("GameOverHeading").GetComponent<TextMeshProUGUI>();
-        PlayerLogic = GameObject.FindWithTag("Player").GetComponent<PlayerLogic>();
+        PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
         ShootingLogic = GameObject.Find("BulletSpawner").GetComponent<ShootingLogic>();
         // GameObject.Find() jest chyba lepszą metodą niż GameObject.FindWithTag() jeżeli jest tylko jeden obiekt danego typu
     }

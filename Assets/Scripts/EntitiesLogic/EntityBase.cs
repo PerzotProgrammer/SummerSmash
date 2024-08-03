@@ -15,13 +15,20 @@ public abstract class EntityBase : MonoBehaviour
     public static int KillCounter;
     public static List<EnemiesLogic> Enemies;
 
-    private IEnumerator DamageCooldown(int damage)
+    private IEnumerator DamageCooldownCoroutine(int damage)
     {
         IsOnDamageCooldown = true;
         Hp -= damage;
         HealthBar.UpdateHealthBar();
         yield return new WaitForSeconds(0.5f); // Cooldown "taranowania"
         IsOnDamageCooldown = false;
+    }
+
+    protected void InitBase()
+    {
+        Rb = GetComponent<Rigidbody2D>();
+        HealthBar = GetComponentInChildren<HealthBar>();
+        Hp = maxHp;
     }
 
     protected void Stay()
@@ -51,7 +58,7 @@ public abstract class EntityBase : MonoBehaviour
 
     public void InflictDamage(int damage, bool fromBullet = false)
     {
-        if (!IsOnDamageCooldown || fromBullet) StartCoroutine(nameof(DamageCooldown), damage);
+        if (!IsOnDamageCooldown || fromBullet) StartCoroutine(nameof(DamageCooldownCoroutine), damage);
     }
 
     public int GetColisionDamage()
