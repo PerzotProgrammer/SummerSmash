@@ -24,8 +24,7 @@ public class ShootingLogic : MonoBehaviour
     private void Update()
     {
         if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(ShootCoroutine));
-        if (Input.GetButtonDown("Fire2") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(ReloadCoroutine));
-        // TODO: PRZEŁADOWANIE NA RAZIE NA PRAWYM MYSZY
+        if (Input.GetKeyDown("r") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(ReloadCoroutine));
     }
 
 

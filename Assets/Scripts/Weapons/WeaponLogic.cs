@@ -9,23 +9,11 @@ public class WeaponLogic : MonoBehaviour
     [SerializeField] private GameObject weapon; // Na przyszłość, jakbyśmy wprowadzili więcej broni
     private GameObject ClosestEnemy;
     private float ClosestDistance;
-    private int LastEnemiesCount;
-    private bool IsFacingRight;
-
-    private void Start()
-    {
-        LastEnemiesCount = 0;
-        IsFacingRight = true;
-    }
+    private bool IsFacingLeft;
 
     private void Update()
     {
-        if (LastEnemiesCount != EntityBase.Enemies.Count)
-        {
-            FindTarget();
-            LastEnemiesCount = EntityBase.Enemies.Count;
-        }
-
+        FindTarget();
         MoveWeapon();
     }
 
@@ -47,13 +35,13 @@ public class WeaponLogic : MonoBehaviour
 
     private void MoveWeapon()
     {
-        if (!ClosestEnemy) return; 
+        if (!ClosestEnemy) return;
         // Sposób sprawdzenia, czy obiekt istnieje w Unity. Cs-owe == null lub is null nie działa poprawnie. 
         Vector2 direction = ClosestEnemy!.transform.position - transform.position;
         float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(rotation, Vector3.forward);
-        if (((rotation > 90 || rotation < -90) && IsFacingRight) || // Obrót w lewo
-            ((rotation > -90 && rotation < 90) && !IsFacingRight)) // Obrót w prawo
+        if (((rotation > 90 || rotation < -90) && !IsFacingLeft) || // Obrót w lewo
+            ((rotation > -90 && rotation < 90) && IsFacingLeft)) // Obrót w prawo
             FlipTexture();
         // Kąty broni:
         // góra: 90
@@ -65,7 +53,7 @@ public class WeaponLogic : MonoBehaviour
     private void FlipTexture()
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
-        IsFacingRight = !IsFacingRight;
+        IsFacingLeft = !IsFacingLeft;
     }
 
     public GameObject GetTarget()
