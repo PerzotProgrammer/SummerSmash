@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GamePause : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class GamePause : MonoBehaviour
 
     private void Update()
     {
-        // SKRYPT PRZYPIĘTY DO SPAWNERA    
         if (Input.GetKeyDown("escape")) Pause();
+        if (Input.GetKeyDown("backspace")) SceneManager.LoadScene("Scenes/MainMenu");
     }
 
     private void Pause()
