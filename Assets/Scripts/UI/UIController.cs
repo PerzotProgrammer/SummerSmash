@@ -34,7 +34,6 @@ public class UIController : MonoBehaviour
             KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
             ReloadIndicator.text = ShootingLogic.IsOnReload() ? "Reloading..." : "READY!";
             GameOverHeading.text = "";
-            if (Time.timeScale == 0) GameOverHeading.text = "GAME PAUSED";
         }
         else
         {

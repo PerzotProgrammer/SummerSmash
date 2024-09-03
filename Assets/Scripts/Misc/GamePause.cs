@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GamePause : MonoBehaviour
 {
-    private bool IsGamePaused;
-
     private void Update()
     {
         if (Input.GetKeyDown("escape")) Pause();
@@ -15,7 +13,11 @@ public class GamePause : MonoBehaviour
 
     private void Pause()
     {
-        Time.timeScale = IsGamePaused ? 1 : 0;
-        IsGamePaused = !IsGamePaused;
+        if (!SceneManager.GetSceneByName("Scenes/PauseMenu").isLoaded)
+        {
+            SceneManager.UnloadSceneAsync("Scenes/UI");
+            SceneManager.LoadScene("Scenes/PauseMenu", LoadSceneMode.Additive);
+            Time.timeScale = 0;
+        }
     }
 }

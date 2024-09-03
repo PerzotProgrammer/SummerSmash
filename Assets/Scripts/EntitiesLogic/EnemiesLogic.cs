@@ -39,6 +39,7 @@ public class EnemiesLogic : EntityBase
         if (other.gameObject.CompareTag("Player"))
         {
             InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
+            Stay(); // Naprawia problem z poruszaniem się wroga po jego dotknięciu
         }
     }
 
