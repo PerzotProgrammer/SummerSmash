@@ -44,4 +44,9 @@ public class UIController : MonoBehaviour
             GameOverHeading.text = $"game over christopher Total Kills: {EntityBase.KillCounter}";
         }
     }
+
+    public void SetShootingLogic(ShootingLogic shootingLogic)
+    {
+        ShootingLogic = shootingLogic;
+    }
 }

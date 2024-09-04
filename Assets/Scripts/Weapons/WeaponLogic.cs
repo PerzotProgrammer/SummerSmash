@@ -6,15 +6,26 @@ using UnityEngine;
 
 public class WeaponLogic : MonoBehaviour
 {
-    [SerializeField] private GameObject weapon; // Na przyszłość, jakbyśmy wprowadzili więcej broni
+    [SerializeField] private GameObject[] weapons;
+    private GameObject CurrentWeapon;
     private GameObject ClosestEnemy;
     private float ClosestDistance;
     private bool IsFacingLeft;
+
+    private void Start()
+    {
+        SetWeapon(0);
+    }
 
     private void Update()
     {
         FindTarget();
         MoveWeapon();
+
+        if (Input.anyKeyDown)
+        {
+            ChangeWeaponCheck();
+        }
     }
 
     private void FindTarget()
@@ -54,6 +65,23 @@ public class WeaponLogic : MonoBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
         IsFacingLeft = !IsFacingLeft;
+    }
+
+    private void SetWeapon(int weaponIndex)
+    {
+        Destroy(CurrentWeapon);
+        CurrentWeapon = Instantiate(weapons[weaponIndex], transform);
+        CurrentWeapon.transform.localPosition = new Vector3(CurrentWeapon.transform.localPosition.x + 0.6f,
+            CurrentWeapon.transform.localPosition.y, 0);
+        GameObject.Find("UIController").GetComponent<UIController>()
+            .SetShootingLogic(CurrentWeapon.transform.GetChild(0).GetComponent<ShootingLogic>());
+    }
+
+    private void ChangeWeaponCheck()
+    {
+        // !!! SetWeapon() przyjmuje index więc musi być o jeden mniejszy
+        if (Input.GetKeyDown("1")) SetWeapon(0);
+        else if (Input.GetKeyDown("2")) SetWeapon(1);
     }
 
     public GameObject GetTarget()
