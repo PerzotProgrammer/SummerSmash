@@ -7,14 +7,15 @@ public class HealingPickup : PickupBase
 {
     [SerializeField] private int healedHp;
 
-    private void OnTriggerStay2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") && !PlayerLogic.HasMaxHp()) Pickup();
+        EntityBase entityBase = other.GetComponent<EntityBase>();
+        if (entityBase && !entityBase.HasMaxHp()) Pickup(entityBase);
     }
 
-    private void Pickup()
+    protected override void Pickup(EntityBase entityBase)
     {
-        PlayerLogic.HealHp(healedHp);
+        entityBase.HealHp(healedHp);
         Destroy(gameObject);
     }
 }

@@ -53,6 +53,11 @@ public class ShootingLogic : MonoBehaviour
         return maxMagazineSize;
     }
 
+    public void SetLoadedBullets(int bulletsAmount)
+    {
+        LoadedBullets = bulletsAmount;
+    }
+
     public int GetLoadedBullets()
     {
         return LoadedBullets;

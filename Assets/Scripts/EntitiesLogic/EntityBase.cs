@@ -9,9 +9,11 @@ public abstract class EntityBase : MonoBehaviour
     [SerializeField] protected int maxHp;
     [SerializeField] protected int colisionDamage;
     private bool IsOnDamageCooldown;
+    protected bool IsOnSpeedUp;
     protected int Hp;
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
+    protected Vector2 MovementVector;
     public static int KillCounter;
     public static List<EnemiesLogic> Enemies;
 
@@ -22,6 +24,16 @@ public abstract class EntityBase : MonoBehaviour
         HealthBar.UpdateHealthBar();
         yield return new WaitForSeconds(0.5f); // Cooldown "taranowania"
         IsOnDamageCooldown = false;
+    }
+
+    private IEnumerator SpeedUpCoroutine(float duration)
+    {
+        float prevSpeed = speed;
+        IsOnSpeedUp = true;
+        speed *= 1.5f;
+        yield return new WaitForSeconds(duration);
+        speed = prevSpeed;
+        IsOnSpeedUp = false;
     }
 
     protected void InitBase()
@@ -65,4 +77,29 @@ public abstract class EntityBase : MonoBehaviour
     {
         return colisionDamage;
     }
+
+
+    public void SpeedUp(float duration)
+    {
+        StartCoroutine(nameof(SpeedUpCoroutine), duration);
+    }
+
+    public void HealHp(int healedHp)
+    {
+        Hp += healedHp;
+        if (Hp > maxHp) Hp = maxHp;
+        HealthBar.UpdateHealthBar();
+    }
+
+    public bool IsOnSpeedBoost()
+    {
+        return IsOnSpeedUp;
+    }
+
+    public Vector2 GetMovementVector()
+    {
+        return MovementVector;
+    }
+
+    protected abstract void OnCollisionStay2D(Collision2D other);
 }

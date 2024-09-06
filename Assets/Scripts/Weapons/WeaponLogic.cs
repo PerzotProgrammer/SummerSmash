@@ -22,10 +22,7 @@ public class WeaponLogic : MonoBehaviour
         FindTarget();
         MoveWeapon();
 
-        if (Input.anyKeyDown)
-        {
-            ChangeWeaponCheck();
-        }
+        if (Input.anyKeyDown) ChangeWeaponCheck();
     }
 
     private void FindTarget()
@@ -69,12 +66,10 @@ public class WeaponLogic : MonoBehaviour
 
     private void SetWeapon(int weaponIndex)
     {
-        Destroy(CurrentWeapon);
+        if (CurrentWeapon is not null) Destroy(CurrentWeapon);
         CurrentWeapon = Instantiate(weapons[weaponIndex], transform);
         CurrentWeapon.transform.localPosition = new Vector3(CurrentWeapon.transform.localPosition.x + 0.6f,
             CurrentWeapon.transform.localPosition.y, 0);
-        GameObject.Find("UIController").GetComponent<UIController>()
-            .SetShootingLogic(CurrentWeapon.transform.GetChild(0).GetComponent<ShootingLogic>());
     }
 
     private void ChangeWeaponCheck()

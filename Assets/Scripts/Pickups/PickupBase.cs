@@ -24,4 +24,7 @@ public abstract class PickupBase : MonoBehaviour
         float distance = Vector2.Distance(transform.position, PlayerLogic.transform.position);
         if (distance > DespawnDistance) Destroy(gameObject);
     }
+
+    protected abstract void OnTriggerEnter2D(Collider2D other);
+    protected abstract void Pickup(EntityBase entityBase);
 }

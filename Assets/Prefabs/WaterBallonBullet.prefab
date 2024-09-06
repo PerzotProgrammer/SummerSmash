@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 3182462088539861243}
   - component: {fileID: -4947651894494490400}
   - component: {fileID: 8205330773438031064}
-  - component: {fileID: 2262485886192838610}
-  - component: {fileID: 545253303738947788}
+  - component: {fileID: 3571590909142330725}
   m_Layer: 0
   m_Name: WaterBallonBullet
   m_TagString: Bullet
@@ -160,7 +159,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &2262485886192838610
+--- !u!114 &3571590909142330725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,22 +168,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4428798470963034860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c976c777d6bdb58488d5a2ec307ce822, type: 3}
+  m_Script: {fileID: 11500000, guid: af6639445e2b2f845931135b18c887b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
   speed: 5
-  damage: 0
---- !u!114 &545253303738947788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4428798470963034860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63089273fe9ee9145babaa46e5482e17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosion: {fileID: 5852553336529583322, guid: 496162b36ed48e24898a3f4bcd531d5a, type: 3}
-  despawnCooldown: 1
+  despawnDistance: 5
+  rotationAnglePerFixedUpdate: 10
+  explosionPrefab: {fileID: 5852553336529583322, guid: 496162b36ed48e24898a3f4bcd531d5a, type: 3}

@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class PlayerLogic : EntityBase
 {
-    private Vector2 MovementVector;
-    private bool IsOnSpeedUp;
-
     private void Start()
     {
         InitBase();
@@ -18,7 +15,11 @@ public class PlayerLogic : EntityBase
     {
         if (IsAlive()) Move();
         else Stay();
-        if (!IsAlive()) gameObject.SetActive(false);
+        if (!IsAlive())
+        {
+            gameObject.SetActive(false);
+            HealthBar.gameObject.SetActive(false);
+        }
     }
 
     private void Move()
@@ -30,44 +31,16 @@ public class PlayerLogic : EntityBase
         Rb.velocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
     }
 
+    public void SetHealthBar(HealthBar healthBar)
+    {
+        HealthBar = healthBar;
+    }
 
-    private void OnCollisionStay2D(Collision2D other)
+    protected override void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Enemies"))
         {
             InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
         }
-    }
-
-    private IEnumerator SpeedUpCoroutine(float duration)
-    {
-        float prevSpeed = speed;
-        IsOnSpeedUp = true;
-        speed *= 1.5f;
-        yield return new WaitForSeconds(duration);
-        speed = prevSpeed;
-        IsOnSpeedUp = false;
-    }
-
-    public void SpeedUp(float duration)
-    { 
-        StartCoroutine(nameof(SpeedUpCoroutine), duration);
-    }
-
-    public void HealHp(int healedHp)
-    {
-        Hp += healedHp;
-        if (Hp > maxHp) Hp = maxHp;
-        HealthBar.UpdateHealthBar();
-    }
-
-    public bool IsOnSpeedBoost()
-    {
-        return IsOnSpeedUp;
-    }
-
-    public Vector2 GetMovementVector()
-    {
-        return MovementVector;
     }
 }

@@ -19,7 +19,7 @@ public class EnemiesLogic : EntityBase
 
     private void FixedUpdate()
     {
-        if (Player is not null)
+        if (Player)
         {
             FollowPlayer();
             DespawnIfTooFar();
@@ -34,7 +34,7 @@ public class EnemiesLogic : EntityBase
     }
 
 
-    private void OnCollisionStay2D(Collision2D other)
+    protected override void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

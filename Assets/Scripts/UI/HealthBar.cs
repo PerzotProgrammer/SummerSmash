@@ -13,7 +13,12 @@ public class HealthBar : MonoBehaviour
     {
         Slider = GetComponentInChildren<Slider>();
         EntityBase = GetComponentInParent<EntityBase>();
-        HideHealthBar();
+        if (!EntityBase)
+        {
+            EntityBase = FindPlayer();
+            EntityBase.GetComponent<PlayerLogic>().SetHealthBar(this);
+        }
+        else HideHealthBar();
     }
 
     private void HideHealthBar()
@@ -24,6 +29,11 @@ public class HealthBar : MonoBehaviour
     private void ShowHealthBar()
     {
         Slider.gameObject.SetActive(true);
+    }
+
+    private EntityBase FindPlayer()
+    {
+        return GameObject.FindGameObjectWithTag("Player").GetComponent<EntityBase>();
     }
 
     public void UpdateHealthBar()

@@ -6,14 +6,15 @@ public class SpeedUpPickup : PickupBase
 {
     [SerializeField] private int duration;
 
-    private void OnTriggerStay2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") && !PlayerLogic.IsOnSpeedBoost()) Pickup();
+        EntityBase entityBase = other.GetComponent<EntityBase>();
+        if (entityBase && !entityBase.IsOnSpeedBoost()) Pickup(entityBase);
     }
 
-    private void Pickup()
+    protected override void Pickup(EntityBase entityBase)
     {
-        PlayerLogic.SpeedUp(duration);
+        entityBase.SpeedUp(duration);
         Destroy(gameObject);
     }
 }

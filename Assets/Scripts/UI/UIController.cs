@@ -21,12 +21,11 @@ public class UIController : MonoBehaviour
         ReloadIndicator = GameObject.Find("ReloadIndicator").GetComponent<TextMeshProUGUI>();
         GameOverHeading = GameObject.Find("GameOverHeading").GetComponent<TextMeshProUGUI>();
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
-        ShootingLogic = GameObject.Find("BulletSpawner").GetComponent<ShootingLogic>();
-        // GameObject.Find() jest chyba lepszą metodą niż GameObject.FindWithTag() jeżeli jest tylko jeden obiekt danego typu
     }
 
     private void Update()
     {
+        if (!ShootingLogic) UpdateShootingLogic();
         if (PlayerLogic.IsAlive())
         {
             HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
@@ -45,8 +44,8 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void SetShootingLogic(ShootingLogic shootingLogic)
+    public void UpdateShootingLogic()
     {
-        ShootingLogic = shootingLogic;
+        ShootingLogic = GameObject.Find("BulletSpawner").GetComponent<ShootingLogic>();
     }
 }

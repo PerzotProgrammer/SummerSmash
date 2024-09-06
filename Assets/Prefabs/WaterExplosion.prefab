@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6167504253711109651}
   - component: {fileID: 2116690350394742220}
   - component: {fileID: 5463578202697001674}
-  - component: {fileID: -6099140882732544621}
+  - component: {fileID: -2890315624262560528}
   m_Layer: 0
   m_Name: WaterExplosion
   m_TagString: Bullet
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.64
---- !u!114 &-6099140882732544621
+--- !u!114 &-2890315624262560528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,8 +130,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5852553336529583322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c976c777d6bdb58488d5a2ec307ce822, type: 3}
+  m_Script: {fileID: 11500000, guid: 63089273fe9ee9145babaa46e5482e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
   damage: 100
+  despawnCooldown: 0.5
