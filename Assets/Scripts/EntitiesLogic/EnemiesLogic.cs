@@ -15,6 +15,7 @@ public class EnemiesLogic : EntityBase
         InitBase();
         Enemies.Add(this);
         Player = GameObject.Find("Player");
+        HealthBar = GetComponentInChildren<HealthBar>();
     }
 
     private void FixedUpdate()

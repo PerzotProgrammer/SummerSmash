@@ -39,7 +39,6 @@ public abstract class EntityBase : MonoBehaviour
     protected void InitBase()
     {
         Rb = GetComponent<Rigidbody2D>();
-        HealthBar = GetComponentInChildren<HealthBar>();
         Hp = maxHp;
     }
 
