@@ -75,4 +75,4 @@ crashlytics-build.properties
 # CUSTOM GITIGNORE
 /.idea
 /.vscode
-/TextMesh Pro
+Assets/TextMesh Pro
