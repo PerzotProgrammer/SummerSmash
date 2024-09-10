@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerLogic : EntityBase
 {
     private void Start()
     {
         InitBase();
+        KillCounter = 0;
         Enemies = new List<EnemiesLogic>();
     }
 
@@ -17,8 +19,13 @@ public class PlayerLogic : EntityBase
         else Stay();
         if (!IsAlive())
         {
-            gameObject.SetActive(false);
-            HealthBar.gameObject.SetActive(false);
+            if (!SceneManager.GetSceneByName("GameOverMenu").isLoaded)
+            {
+                HealthBar.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                SceneManager.UnloadSceneAsync("UI");
+                SceneManager.LoadSceneAsync("GameOverMenu", LoadSceneMode.Additive);
+            }
         }
     }
 

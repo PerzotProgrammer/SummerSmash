@@ -5,9 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class GamePause : MonoBehaviour
 {
+    private PlayerLogic PlayerLogic;
+
+    private void Start()
+    {
+        PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown("escape")) Pause();
+        if (Input.GetKeyDown("escape") && PlayerLogic.IsAlive()) Pause();
         if (Input.GetKeyDown("backspace")) SceneManager.LoadScene("Scenes/MainMenu");
     }
 

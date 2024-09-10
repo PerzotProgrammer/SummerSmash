@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI BulletCounter;
     private TextMeshProUGUI KillCounter;
     private TextMeshProUGUI ReloadIndicator;
-    private TextMeshProUGUI GameOverHeading;
     private PlayerLogic PlayerLogic;
     private ShootingLogic ShootingLogic;
 
@@ -19,29 +18,17 @@ public class UIController : MonoBehaviour
         BulletCounter = GameObject.Find("BulletCounter").GetComponent<TextMeshProUGUI>();
         KillCounter = GameObject.Find("KillCounter").GetComponent<TextMeshProUGUI>();
         ReloadIndicator = GameObject.Find("ReloadIndicator").GetComponent<TextMeshProUGUI>();
-        GameOverHeading = GameObject.Find("GameOverHeading").GetComponent<TextMeshProUGUI>();
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
     }
 
     private void Update()
     {
         if (!ShootingLogic) UpdateShootingLogic();
-        if (PlayerLogic.IsAlive())
-        {
-            HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
-            BulletCounter.text = $"Bullets: {ShootingLogic.GetLoadedBullets()}/{ShootingLogic.GetMagazineSize()}";
-            KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
-            ReloadIndicator.text = ShootingLogic.IsOnReload() ? "Reloading..." : "READY!";
-            GameOverHeading.text = "";
-        }
-        else
-        {
-            HpCounter.text = "";
-            BulletCounter.text = "";
-            KillCounter.text = "";
-            ReloadIndicator.text = "";
-            GameOverHeading.text = $"game over christopher Total Kills: {EntityBase.KillCounter}";
-        }
+
+        HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
+        BulletCounter.text = $"Bullets: {ShootingLogic.GetLoadedBullets()}/{ShootingLogic.GetMagazineSize()}";
+        KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
+        ReloadIndicator.text = ShootingLogic.IsOnReload() ? "Reloading..." : "READY!";
     }
 
     public void UpdateShootingLogic()
