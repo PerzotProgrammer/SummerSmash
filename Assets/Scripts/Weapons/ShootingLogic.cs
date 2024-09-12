@@ -13,11 +13,14 @@ public class ShootingLogic : MonoBehaviour
     private int LoadedBullets;
     private bool CanShoot;
     private bool IsReloading;
+    private int WeaponIndex;
 
     private void Start()
     {
         WeaponLogic = GameObject.Find("WeaponParent").GetComponent<WeaponLogic>();
-        LoadedBullets = maxMagazineSize;
+        WeaponIndex = WeaponLogic.GetWeaponIndex();
+        if (WeaponLogic.MagazineState[WeaponIndex] == -1) WeaponLogic.MagazineState[WeaponIndex] = maxMagazineSize;
+        LoadedBullets = WeaponLogic.MagazineState[WeaponIndex];
         CanShoot = true;
     }
 
@@ -66,5 +69,10 @@ public class ShootingLogic : MonoBehaviour
     public bool IsOnReload()
     {
         return IsReloading;
+    }
+
+    private void OnDestroy()
+    {
+        WeaponLogic.MagazineState[WeaponIndex] = LoadedBullets;
     }
 }

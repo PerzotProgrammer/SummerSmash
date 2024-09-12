@@ -13,6 +13,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float pickupSpawnCooldown;
     [SerializeField] private float maxSpawnDistance;
     [SerializeField] private float minSpawnDistance;
+    [SerializeField] private int maxSpawnCountPerCycle;
+    [SerializeField] private int maxSpawnedEnemiesCount;
     private PlayerLogic PlayerLogic;
     private Rigidbody2D PlayerRb;
     private bool EnemySpawnCooldown;
@@ -20,21 +22,26 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        EntityBase.Enemies = new List<EnemiesLogic>();
+        PickupBase.Pickups = new List<PickupBase>();
+        EntityBase.KillCounter = 0;
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
         PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (!EnemySpawnCooldown && PlayerLogic.IsAlive()) StartCoroutine(nameof(SpawnEnemyCoroutine));
+        if (!EnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnCountPerCycle)
+            StartCoroutine(nameof(SpawnEnemyCoroutine));
         if (!PickupSpawnCooldown && PlayerLogic.IsAlive()) StartCoroutine(nameof(SpawnPickupCoroutine));
     }
 
     private IEnumerator SpawnEnemyCoroutine()
     {
-        foreach (GameObject enemy in enemies) // TODO: System losowania przeciwników (jak będzie ich więcej)
+        for (int i = 0; i < Random.Range(1, maxSpawnCountPerCycle); i++)
         {
-            Instantiate(enemy, RollPosition(), quaternion.identity);
+            Vector2 position = RollPosition();
+            Instantiate(enemies[Random.Range(0, enemies.Length)], position, quaternion.identity);
         }
 
         EnemySpawnCooldown = true;
@@ -44,9 +51,10 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator SpawnPickupCoroutine()
     {
-        foreach (GameObject pickup in pickups)
+        for (int i = 0; i < Random.Range(1, maxSpawnCountPerCycle); i++)
         {
-            Instantiate(pickup, RollPosition(), quaternion.identity);
+            Vector2 position = RollPosition();
+            Instantiate(pickups[Random.Range(0, pickups.Length)], position, quaternion.identity);
         }
 
         PickupSpawnCooldown = true;

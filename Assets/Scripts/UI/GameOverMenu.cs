@@ -17,8 +17,8 @@ public class GameOverMenu : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("Scenes/UI");
-        SceneManager.LoadScene("Scenes/Level", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Scenes/Level");
+        SceneManager.LoadScene("Scenes/UI", LoadSceneMode.Additive);
     }
 
     public void QuitToMenu()

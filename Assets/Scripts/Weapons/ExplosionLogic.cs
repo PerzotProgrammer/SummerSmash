@@ -16,6 +16,8 @@ public class ExplosionLogic : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         EntityBase entityBase = other.gameObject.GetComponent<EntityBase>();
+        if (!entityBase) return;
+
         if (entityBase.CompareTag("Player"))
         {
             entityBase.InflictDamage(damage / 2, true);

@@ -9,8 +9,6 @@ public class PlayerLogic : EntityBase
     private void Start()
     {
         InitBase();
-        KillCounter = 0;
-        Enemies = new List<EnemiesLogic>();
     }
 
     private void FixedUpdate()

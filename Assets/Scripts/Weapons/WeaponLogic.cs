@@ -11,10 +11,15 @@ public class WeaponLogic : MonoBehaviour
     private GameObject ClosestEnemy;
     private float ClosestDistance;
     private bool IsFacingLeft;
+    private int CurrentWeaponIndex;
+    public static int[] MagazineState;
+
 
     private void Start()
     {
-        SetWeapon(0);
+        CurrentWeaponIndex = 0;
+        SetWeapon(CurrentWeaponIndex);
+        InitMagazine();
     }
 
     private void Update()
@@ -66,6 +71,7 @@ public class WeaponLogic : MonoBehaviour
 
     private void SetWeapon(int weaponIndex)
     {
+        CurrentWeaponIndex = weaponIndex;
         if (CurrentWeapon is not null) Destroy(CurrentWeapon);
         CurrentWeapon = Instantiate(weapons[weaponIndex], transform);
         CurrentWeapon.transform.localPosition = new Vector3(CurrentWeapon.transform.localPosition.x + 0.6f,
@@ -79,8 +85,19 @@ public class WeaponLogic : MonoBehaviour
         else if (Input.GetKeyDown("2")) SetWeapon(1);
     }
 
+    private void InitMagazine()
+    {
+        MagazineState = new int[weapons.Length];
+        for (int i = 0; i < MagazineState.Length; i++) MagazineState[i] = -1;
+    }
+
     public GameObject GetTarget()
     {
         return ClosestEnemy;
+    }
+
+    public int GetWeaponIndex()
+    {
+        return CurrentWeaponIndex;
     }
 }

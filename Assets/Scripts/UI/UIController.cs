@@ -28,7 +28,14 @@ public class UIController : MonoBehaviour
         HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
         BulletCounter.text = $"Bullets: {ShootingLogic.GetLoadedBullets()}/{ShootingLogic.GetMagazineSize()}";
         KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
-        ReloadIndicator.text = ShootingLogic.IsOnReload() ? "Reloading..." : "READY!";
+        ReloadIndicatorState();
+    }
+
+    private void ReloadIndicatorState()
+    {
+        if (ShootingLogic.IsOnReload()) ReloadIndicator.text = "Reloading...";
+        else if (ShootingLogic.GetLoadedBullets() == 0) ReloadIndicator.text = "EMPTY!";
+        else ReloadIndicator.text = "READY!";
     }
 
     public void UpdateShootingLogic()
