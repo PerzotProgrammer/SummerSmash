@@ -174,9 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   maxHp: 50
-  colisionDamage: 10
-  damageCooldownTime: 0.1
-  distanceToSpotPlayer: 10
+  collisionDamage: 10
+  despawnDistance: 30
 --- !u!1001 &7259488735599007940
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemiesLogic : EntityBase
 {
-    [SerializeField] private float distanceToSpotPlayer;
+    [SerializeField] private float despawnDistance;
     private GameObject Player;
     private float Distance;
 
@@ -30,7 +30,7 @@ public class EnemiesLogic : EntityBase
         if (!IsAlive())
         {
             KillCounter += 1;
-            Despawn();
+            Destroy(gameObject);
         }
     }
 
@@ -46,23 +46,18 @@ public class EnemiesLogic : EntityBase
 
     private void FollowPlayer()
     {
-        Distance = Vector2.Distance(transform.position, Player.transform.position);
-        if (Distance < distanceToSpotPlayer)
-        {
-            transform.position =
-                Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.fixedDeltaTime);
-        }
+        transform.position =
+            Vector2.MoveTowards(transform.position, Player.transform.position, speed * Time.fixedDeltaTime);
     }
 
     private void DespawnIfTooFar()
     {
         Distance = Vector2.Distance(transform.position, Player.transform.position);
-        if (Distance > distanceToSpotPlayer * 3) Despawn();
+        if (Distance > despawnDistance) Destroy(gameObject);
     }
 
-    private void Despawn()
+    private void OnDestroy()
     {
         Enemies.Remove(this);
-        Destroy(gameObject);
     }
 }

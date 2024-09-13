@@ -7,7 +7,7 @@ public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField] protected float speed;
     [SerializeField] protected int maxHp;
-    [SerializeField] protected int colisionDamage;
+    [SerializeField] protected int collisionDamage;
     private bool IsOnDamageCooldown;
     protected bool IsOnSpeedUp;
     protected int Hp;
@@ -74,7 +74,7 @@ public abstract class EntityBase : MonoBehaviour
 
     public int GetColisionDamage()
     {
-        return colisionDamage;
+        return collisionDamage;
     }
 
 

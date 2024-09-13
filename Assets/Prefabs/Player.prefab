@@ -223,7 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   maxHp: 100
-  colisionDamage: 25
+  collisionDamage: 20
 --- !u!95 &1154585684921835677
 Animator:
   serializedVersion: 5

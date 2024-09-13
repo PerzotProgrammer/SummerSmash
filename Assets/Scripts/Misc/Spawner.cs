@@ -9,16 +9,18 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject[] pickups;
+    [SerializeField] private GameObject spawnProbe;
     [SerializeField] private float enemySpawnCooldown;
     [SerializeField] private float pickupSpawnCooldown;
-    [SerializeField] private float maxSpawnDistance;
     [SerializeField] private float minSpawnDistance;
+    [SerializeField] private float maxSpawnDistance;
+    [SerializeField] private int minSpawnCountPerCycle;
     [SerializeField] private int maxSpawnCountPerCycle;
     [SerializeField] private int maxSpawnedEnemiesCount;
     private PlayerLogic PlayerLogic;
     private Rigidbody2D PlayerRb;
-    private bool EnemySpawnCooldown;
-    private bool PickupSpawnCooldown;
+    private bool IsOnEnemySpawnCooldown;
+    private bool IsOnPickupSpawnCooldown;
 
     private void Start()
     {
@@ -31,35 +33,48 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!EnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnCountPerCycle)
+        if (!IsOnEnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnedEnemiesCount)
             StartCoroutine(nameof(SpawnEnemyCoroutine));
-        if (!PickupSpawnCooldown && PlayerLogic.IsAlive()) StartCoroutine(nameof(SpawnPickupCoroutine));
+        if (!IsOnPickupSpawnCooldown && PlayerLogic.IsAlive())
+            StartCoroutine(nameof(SpawnPickupCoroutine));
     }
 
     private IEnumerator SpawnEnemyCoroutine()
     {
-        for (int i = 0; i < Random.Range(1, maxSpawnCountPerCycle); i++)
+        IsOnEnemySpawnCooldown = true;
+        for (int i = 0; i < Random.Range(minSpawnCountPerCycle, maxSpawnCountPerCycle); i++)
         {
             Vector2 position = RollPosition();
-            Instantiate(enemies[Random.Range(0, enemies.Length)], position, quaternion.identity);
+            SpawnProbe sProbe = Instantiate(spawnProbe, position, Quaternion.identity).GetComponent<SpawnProbe>();
+            yield return new WaitForSeconds(Time.fixedDeltaTime * 2); // Czas na wykrycie kolizji
+            if (!sProbe.CheckIfIsInMapCollider())
+            {
+                Instantiate(enemies[Random.Range(0, enemies.Length)], position, quaternion.identity);
+            }
+            else i--;
         }
 
-        EnemySpawnCooldown = true;
         yield return new WaitForSeconds(enemySpawnCooldown);
-        EnemySpawnCooldown = false;
+        IsOnEnemySpawnCooldown = false;
     }
 
     private IEnumerator SpawnPickupCoroutine()
     {
-        for (int i = 0; i < Random.Range(1, maxSpawnCountPerCycle); i++)
+        IsOnPickupSpawnCooldown = true;
+        for (int i = 0; i < Random.Range(minSpawnCountPerCycle, maxSpawnCountPerCycle); i++)
         {
             Vector2 position = RollPosition();
-            Instantiate(pickups[Random.Range(0, pickups.Length)], position, quaternion.identity);
+            SpawnProbe sProbe = Instantiate(spawnProbe, position, Quaternion.identity).GetComponent<SpawnProbe>();
+            yield return new WaitForSeconds(Time.fixedDeltaTime * 2); // Czas na wykrycie kolizji
+            if (!sProbe.CheckIfIsInMapCollider())
+            {
+                Instantiate(pickups[Random.Range(0, pickups.Length)], position, quaternion.identity);
+            }
+            else i--;
         }
 
-        PickupSpawnCooldown = true;
         yield return new WaitForSeconds(pickupSpawnCooldown);
-        PickupSpawnCooldown = false;
+        IsOnPickupSpawnCooldown = false;
     }
 
     private Vector2 RollPosition()
