@@ -83,6 +83,7 @@ public class WeaponLogic : MonoBehaviour
         // !!! SetWeapon() przyjmuje index więc musi być o jeden mniejszy
         if (Input.GetKeyDown("1")) SetWeapon(0);
         else if (Input.GetKeyDown("2")) SetWeapon(1);
+        else if (Input.GetKeyDown("3")) SetWeapon(2);
     }
 
     private void InitMagazine()

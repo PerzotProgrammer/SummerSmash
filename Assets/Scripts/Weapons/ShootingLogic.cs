@@ -9,6 +9,7 @@ public class ShootingLogic : MonoBehaviour
     [SerializeField] private int maxMagazineSize;
     [SerializeField] private float reloadTime;
     [SerializeField] private float shootingCooldown;
+    [SerializeField] private bool isAutomatic;
     private WeaponLogic WeaponLogic;
     private int LoadedBullets;
     private bool CanShoot;
@@ -26,7 +27,9 @@ public class ShootingLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(ShootCoroutine));
+        bool isActionPressed = isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
+       
+        if (isActionPressed && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(ShootCoroutine));
         if (Input.GetKeyDown("r") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(ReloadCoroutine));
     }
 
