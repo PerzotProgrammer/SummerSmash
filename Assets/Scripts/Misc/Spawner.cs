@@ -17,6 +17,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int minSpawnCountPerCycle;
     [SerializeField] private int maxSpawnCountPerCycle;
     [SerializeField] private int maxSpawnedEnemiesCount;
+    private WaveSystem WaveSystem;
     private PlayerLogic PlayerLogic;
     private Rigidbody2D PlayerRb;
     private bool IsOnEnemySpawnCooldown;
@@ -29,11 +30,12 @@ public class Spawner : MonoBehaviour
         EntityBase.KillCounter = 0;
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
         PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+        WaveSystem = gameObject.GetComponent<WaveSystem>();
     }
 
     private void Update()
     {
-        if (!IsOnEnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnedEnemiesCount)
+        if (!IsOnEnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnedEnemiesCount && !WaveSystem.IsOnWaveCooldown())
             StartCoroutine(nameof(SpawnEnemyCoroutine));
         if (!IsOnPickupSpawnCooldown && PlayerLogic.IsAlive())
             StartCoroutine(nameof(SpawnPickupCoroutine));

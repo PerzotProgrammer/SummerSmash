@@ -12,7 +12,7 @@ public class GameOverMenu : MonoBehaviour
     private void Start()
     {
         Score = GameObject.Find("Score").GetComponent<TextMeshProUGUI>();
-        Score.text += EntityBase.KillCounter.ToString();
+        Score.text = $"Total kills: {EntityBase.KillCounter.ToString()}\nWave number: {WaveSystem.WaveNumber}";
     }
 
     public void RestartGame()

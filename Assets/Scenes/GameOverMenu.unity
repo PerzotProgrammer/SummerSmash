@@ -597,7 +597,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Total kills: '
+  m_text: 'Total kills:  0
+
+    Wave number: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 696e52f9b8b4bdf4a955588b08e98813, type: 2}
   m_sharedMaterial: {fileID: -3669355468663826406, guid: 696e52f9b8b4bdf4a955588b08e98813, type: 2}
