@@ -1,15 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Generation;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class SpawnProbe : MonoBehaviour
 {
     private bool IsInMapCollider;
+    private Tilemap Tilemap;
 
     private void Start()
     {
-        IsInMapCollider = false;
+        Tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        // Tutaj na razie dlatego, że nie mam colliderów a undefined jest poza granicą mapy
+        IsInMapCollider = GetCurrentTileType() == TileType.Undefined;
         Destroy(gameObject, Time.fixedDeltaTime * 3);
     }
 
@@ -21,5 +26,11 @@ public class SpawnProbe : MonoBehaviour
     public bool CheckIfIsInMapCollider()
     {
         return IsInMapCollider;
+    }
+
+    protected TileType GetCurrentTileType()
+    {
+        Vector3Int probePosition = Tilemap.WorldToCell(transform.position);
+        return MapGenerator.TileTypes.GetValueOrDefault(probePosition, TileType.Undefined);
     }
 }

@@ -15,6 +15,7 @@ public class OnlyForEditor : MonoBehaviour
     [SerializeField] private bool invincibility;
     [SerializeField] private bool unlimitedAmmunition;
     [SerializeField] private bool resetAmmunition;
+    [SerializeField] private bool instaKill;
     private PlayerLogic PlayerLogic;
 
     private void Start()
@@ -33,6 +34,12 @@ public class OnlyForEditor : MonoBehaviour
 
     private void Update()
     {
+        if (!PlayerLogic.IsAlive()) return;
+        if (instaKill)
+        {
+            PlayerLogic.HealHp(-10000000);
+            instaKill = false;
+        }
         if (invincibility && !PlayerLogic.HasMaxHp()) PlayerLogic.HealHp(PlayerLogic.GetMaxHp());
         if (resetAmmunition)
         {
@@ -43,6 +50,7 @@ public class OnlyForEditor : MonoBehaviour
 
             resetAmmunition = false;
         }
+
     }
 
     private void LoadUIIfNotLoaded()

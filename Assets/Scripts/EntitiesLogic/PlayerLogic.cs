@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Generation;
 
 public class PlayerLogic : EntityBase
 {
@@ -34,6 +35,7 @@ public class PlayerLogic : EntityBase
 
         MovementVector = new Vector2(moveX, moveY).normalized;
         Rb.velocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
+        if (GetCurrentTileType() == TileType.Water) Rb.velocity *= 0.8f;
     }
 
     public void SetHealthBar(HealthBar healthBar)

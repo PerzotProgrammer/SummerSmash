@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Generation;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public abstract class EntityBase : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public abstract class EntityBase : MonoBehaviour
     protected Vector2 MovementVector;
     public static int KillCounter;
     public static List<EnemiesLogic> Enemies;
+    private Tilemap Tilemap;
 
     private IEnumerator DamageCooldownCoroutine(int damage)
     {
@@ -40,6 +43,7 @@ public abstract class EntityBase : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody2D>();
         Hp = maxHp;
+        Tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
     }
 
     protected void Stay()
@@ -98,6 +102,12 @@ public abstract class EntityBase : MonoBehaviour
     public Vector2 GetMovementVector()
     {
         return MovementVector;
+    }
+
+    protected TileType GetCurrentTileType()
+    {
+        Vector3Int playerPosition = Tilemap.WorldToCell(transform.position);
+        return MapGenerator.TileTypes.GetValueOrDefault(playerPosition, TileType.Undefined);
     }
 
     protected abstract void OnCollisionStay2D(Collision2D other);
