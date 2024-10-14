@@ -11,16 +11,24 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float noiseScale;
     [SerializeField] private int width;
     [SerializeField] private int height;
+    [SerializeField] private int featuresProbabilityMaxRange;
     [SerializeField] private TileBase groundAutoTile;
     [SerializeField] private TileBase waterAutoTile;
-    private Tilemap Tilemap;
+    [SerializeField] private TileBase[] groundFeatures;
+    [SerializeField] private GameObject[] objectFeatures;
+    private Tilemap GroundTilemap;
+    private Tilemap GroundFeaturesTilemap;
+    private GameObject Features;
     public static Dictionary<Vector3Int, TileType> TileTypes;
 
     private void Start()
     {
-        Tilemap = GetComponent<Tilemap>();
+        GroundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        GroundFeaturesTilemap = GameObject.Find("GroundFeatures").GetComponent<Tilemap>();
+        Features = GameObject.Find("ObjectFeatures");
         TileTypes = new Dictionary<Vector3Int, TileType>();
         GenerateMap();
+        GenerateFeatures();
         gameObject.transform.position = new Vector3(-width / 2, -height / 2, 0);
     }
 
@@ -47,13 +55,35 @@ public class MapGenerator : MonoBehaviour
                 }
 
                 Vector3Int tilePosition = new Vector3Int(x, y, 0);
-                Tilemap.SetTile(tilePosition, tile);
+                if (tileType == TileType.Ground && Random.Range(0, featuresProbabilityMaxRange) == 0)
+                {
+                    GroundFeaturesTilemap.SetTile(tilePosition, groundFeatures[Random.Range(0, groundFeatures.Length)]);
+                }
+
+                GroundTilemap.SetTile(tilePosition, tile);
                 TileTypes.Add(tilePosition, tileType);
             }
         }
     }
 
-    public float[,] GeneratePerlinNoise()
+    private void GenerateFeatures()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                // TODO: Refactoring tego bo jest to nieoptymalne, na szybko napisane i nie działa do końca poprawnie
+                if (TileTypes[new Vector3Int(x, y, 0)] == TileType.Ground &&
+                    Random.Range(0, featuresProbabilityMaxRange * 3) == 0)
+                {
+                    Instantiate(objectFeatures[Random.Range(0, objectFeatures.Length)], Features.transform)
+                        .transform.position = new Vector3Int(x, y, 0);
+                }
+            }
+        }
+    }
+
+    private float[,] GeneratePerlinNoise()
     {
         float[,] noiseArray = new float[width, height];
         float seed = Random.Range(-10000, 10000);

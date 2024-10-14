@@ -139,7 +139,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.0.9 Rand Terrain Dev
+  bundleVersion: 0.0.10 Rand Terrain Dev
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
