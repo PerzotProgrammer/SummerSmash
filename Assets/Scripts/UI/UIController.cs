@@ -29,12 +29,12 @@ public class UIController : MonoBehaviour
     {
         if (!ShootingLogic) UpdateShootingLogic();
 
-        HpCounter.text = $"HP: {PlayerLogic.GetHp()}";
-        BulletCounter.text = $"Bullets: {ShootingLogic.GetLoadedBullets()}/{ShootingLogic.GetMagazineSize()}";
+        HpCounter.text = $"HP: {PlayerLogic.Hp}";
+        BulletCounter.text = $"Bullets: {ShootingLogic.LoadedBullets}/{ShootingLogic.MaxMagazineSize}";
         KillCounter.text = $"Total Kills: {EntityBase.KillCounter}";
-        if (WaveSystem.IsOnWaveCooldown())
+        if (WaveSystem.WaveCooldown)
         {
-            WaveIndicator.text = $"WAVE CLEARED\nCURRENT GOAL: {WaveSystem.GetEnemiesInWaveCount()} KILLS";
+            WaveIndicator.text = $"WAVE CLEARED, MAX HP INCREASED!\nCURRENT GOAL: {WaveSystem.GetEnemiesInWaveCount()} KILLS";
         }
         else WaveIndicator.text = $"WAVE {WaveSystem.WaveNumber}";
 
@@ -43,8 +43,8 @@ public class UIController : MonoBehaviour
 
     private void ReloadIndicatorState()
     {
-        if (ShootingLogic.IsOnReload()) ReloadIndicator.text = "Reloading...";
-        else if (ShootingLogic.GetLoadedBullets() == 0) ReloadIndicator.text = "EMPTY!";
+        if (ShootingLogic.IsReloading) ReloadIndicator.text = "Reloading...";
+        else if (ShootingLogic.LoadedBullets == 0) ReloadIndicator.text = "EMPTY!";
         else ReloadIndicator.text = "READY!";
     }
 

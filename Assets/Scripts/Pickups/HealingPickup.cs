@@ -16,6 +16,6 @@ public class HealingPickup : PickupBase
     protected override void Pickup(EntityBase entityBase)
     {
         entityBase.HealHp(healedHp);
-        Destroy(gameObject);
+        base.Pickup(null);
     }
 }

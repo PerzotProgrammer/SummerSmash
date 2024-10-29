@@ -7,20 +7,22 @@ public class EnemiesLogic : EntityBase
 {
     [SerializeField] private float despawnDistance;
     private GameObject Player;
+    private PlayerLogic PlayerLogic;
     private float Distance;
 
 
-    private void Start()
+    protected override void Start()
     {
-        InitBase();
+        base.Start();
         Enemies.Add(this);
         Player = GameObject.Find("Player");
+        PlayerLogic = Player.GetComponent<PlayerLogic>();
         HealthBar = GetComponentInChildren<HealthBar>();
     }
 
     private void FixedUpdate()
     {
-        if (Player)
+        if (PlayerLogic.IsAlive())
         {
             FollowPlayer();
             DespawnIfTooFar();
@@ -39,7 +41,7 @@ public class EnemiesLogic : EntityBase
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
+            InflictDamage(other.gameObject.GetComponent<EntityBase>().CollisionDamage);
             Stay(); // Naprawia problem z poruszaniem się wroga po jego dotknięciu
         }
     }

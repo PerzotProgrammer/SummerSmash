@@ -15,14 +15,14 @@ public abstract class BulletBase : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody2D>();
         Player = GameObject.Find("Player");
-        Target = Player.GetComponentInChildren<WeaponLogic>().GetTarget();
+        Target = Player.GetComponentInChildren<WeaponLogic>().Target;
         Move();
     }
 
     private void Move()
     {
         Vector3 movementVector = Target.transform.position - transform.position;
-        Rb.velocity = new Vector2(movementVector.x, movementVector.y).normalized * speed;
+        Rb.linearVelocity = new Vector2(movementVector.x, movementVector.y).normalized * speed;
     }
 
     protected void CheckDistToPlayer()

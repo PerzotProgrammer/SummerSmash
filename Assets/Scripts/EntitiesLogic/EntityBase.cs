@@ -7,18 +7,20 @@ using UnityEngine.Tilemaps;
 
 public abstract class EntityBase : MonoBehaviour
 {
+    [SerializeField] protected int startingHp;
+    [SerializeField] protected int startingCollisionDamage;
     [SerializeField] protected float speed;
-    [SerializeField] protected int maxHp;
-    [SerializeField] protected int collisionDamage;
     private bool IsOnDamageCooldown;
-    protected bool IsOnSpeedUp;
-    protected int Hp;
+    private Tilemap Tilemap;
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
-    protected Vector2 MovementVector;
-    public static int KillCounter;
-    public static List<EnemiesLogic> Enemies;
-    private Tilemap Tilemap;
+    public static int KillCounter { get; protected set; }
+    public static List<EnemiesLogic> Enemies { get; protected set; }
+    public int Hp { get; protected set; }
+    public int MaxHp { get; protected set; }
+    public int CollisionDamage { get; protected set; }
+    public bool IsOnSpeedUp { get; protected set; }
+    public Vector2 MovementVector { get; protected set; }
 
     private IEnumerator DamageCooldownCoroutine(int damage)
     {
@@ -39,16 +41,18 @@ public abstract class EntityBase : MonoBehaviour
         IsOnSpeedUp = false;
     }
 
-    protected void InitBase()
+    protected virtual void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
-        Hp = maxHp;
+        CollisionDamage = startingCollisionDamage;
+        MaxHp = startingHp;
+        Hp = MaxHp;
         Tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
     }
 
     protected void Stay()
     {
-        Rb.velocity = new Vector2(0, 0);
+        Rb.linearVelocity = new Vector2(0, 0);
     }
 
     public bool IsAlive()
@@ -58,29 +62,13 @@ public abstract class EntityBase : MonoBehaviour
 
     public bool HasMaxHp()
     {
-        return Hp == maxHp;
-    }
-
-    public int GetHp()
-    {
-        return Hp;
-    }
-
-    public int GetMaxHp()
-    {
-        return maxHp;
+        return Hp == MaxHp;
     }
 
     public void InflictDamage(int damage, bool fromBullet = false)
     {
         if (!IsOnDamageCooldown || fromBullet) StartCoroutine(nameof(DamageCooldownCoroutine), damage);
     }
-
-    public int GetColisionDamage()
-    {
-        return collisionDamage;
-    }
-
 
     public void SpeedUp(float duration)
     {
@@ -90,19 +78,10 @@ public abstract class EntityBase : MonoBehaviour
     public void HealHp(int healedHp)
     {
         Hp += healedHp;
-        if (Hp > maxHp) Hp = maxHp;
+        if (Hp > MaxHp) Hp = MaxHp;
         HealthBar.UpdateHealthBar();
     }
 
-    public bool IsOnSpeedBoost()
-    {
-        return IsOnSpeedUp;
-    }
-
-    public Vector2 GetMovementVector()
-    {
-        return MovementVector;
-    }
 
     protected TileType GetCurrentTileType()
     {
@@ -111,4 +90,9 @@ public abstract class EntityBase : MonoBehaviour
     }
 
     protected abstract void OnCollisionStay2D(Collision2D other);
+    
+    public static void InitEnemiesList()
+    {
+        Enemies = new List<EnemiesLogic>();
+    }
 }

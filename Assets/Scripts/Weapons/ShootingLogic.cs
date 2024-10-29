@@ -6,21 +6,23 @@ using UnityEngine;
 public class ShootingLogic : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
-    [SerializeField] private int maxMagazineSize;
     [SerializeField] private float reloadTime;
     [SerializeField] private float shootingCooldown;
+    [SerializeField] private int startingMagazineSize;
     [SerializeField] private bool isAutomatic;
+    public int MaxMagazineSize { get; private set; }
+    public int LoadedBullets { get; private set; }
+    public bool IsReloading { get; private set; }
     private WeaponLogic WeaponLogic;
-    private int LoadedBullets;
     private bool CanShoot;
-    private bool IsReloading;
     private int WeaponIndex;
 
     private void Start()
     {
+        MaxMagazineSize = startingMagazineSize;
         WeaponLogic = GameObject.Find("WeaponParent").GetComponent<WeaponLogic>();
-        WeaponIndex = WeaponLogic.GetWeaponIndex();
-        if (WeaponLogic.MagazineState[WeaponIndex] == -1) WeaponLogic.MagazineState[WeaponIndex] = maxMagazineSize;
+        WeaponIndex = WeaponLogic.CurrentWeaponIndex;
+        if (WeaponLogic.MagazineState[WeaponIndex] == -1) WeaponLogic.MagazineState[WeaponIndex] = MaxMagazineSize;
         LoadedBullets = WeaponLogic.MagazineState[WeaponIndex];
         CanShoot = true;
     }
@@ -28,9 +30,10 @@ public class ShootingLogic : MonoBehaviour
     private void Update()
     {
         bool isActionPressed = isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
-       
-        if (isActionPressed && WeaponLogic.GetTarget() is not null) StartCoroutine(nameof(ShootCoroutine));
-        if (Input.GetKeyDown("r") && LoadedBullets != maxMagazineSize) StartCoroutine(nameof(ReloadCoroutine));
+
+        if (isActionPressed && WeaponLogic.Target) StartCoroutine(nameof(ShootCoroutine), reloadTime);
+        if (Input.GetKeyDown("r") && LoadedBullets != MaxMagazineSize)
+            StartCoroutine(nameof(ReloadCoroutine), reloadTime);
     }
 
 
@@ -46,36 +49,21 @@ public class ShootingLogic : MonoBehaviour
         }
     }
 
-    private IEnumerator ReloadCoroutine()
+    private IEnumerator ReloadCoroutine(float time)
     {
         IsReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-        LoadedBullets = maxMagazineSize;
+        yield return new WaitForSeconds(time);
+        LoadedBullets = MaxMagazineSize;
         IsReloading = false;
-    }
-
-    public int GetMagazineSize()
-    {
-        return maxMagazineSize;
-    }
-
-    public void SetLoadedBullets(int bulletsAmount)
-    {
-        LoadedBullets = bulletsAmount;
-    }
-
-    public int GetLoadedBullets()
-    {
-        return LoadedBullets;
-    }
-
-    public bool IsOnReload()
-    {
-        return IsReloading;
     }
 
     private void OnDestroy()
     {
         WeaponLogic.MagazineState[WeaponIndex] = LoadedBullets;
+    }
+
+    public void InstaReload()
+    {
+        StartCoroutine(nameof(ShootCoroutine), 0);
     }
 }

@@ -19,10 +19,14 @@ public class MapGenerator : MonoBehaviour
     private Tilemap GroundTilemap;
     private Tilemap GroundFeaturesTilemap;
     private GameObject Features;
-    public static Dictionary<Vector3Int, TileType> TileTypes;
+    public static Dictionary<Vector3Int, TileType> TileTypes { get; private set; }
 
     private void Start()
     {
+#if UNITY_EDITOR // Rozwiązanie tymczasowe, dopóki nie zaimplementuje się systemu chunków
+        width = 100;
+        height = 100;
+#endif
         GroundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
         GroundFeaturesTilemap = GameObject.Find("GroundFeatures").GetComponent<Tilemap>();
         Features = GameObject.Find("ObjectFeatures");

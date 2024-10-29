@@ -7,8 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class SpawnProbe : MonoBehaviour
 {
-    private bool IsInMapCollider;
     private Tilemap Tilemap;
+    public bool IsInMapCollider { get; private set; }
 
     private void Start()
     {
@@ -21,11 +21,6 @@ public class SpawnProbe : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("MapCollider")) IsInMapCollider = true;
-    }
-
-    public bool CheckIfIsInMapCollider()
-    {
-        return IsInMapCollider;
     }
 
     protected TileType GetCurrentTileType()

@@ -25,9 +25,8 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        EntityBase.Enemies = new List<EnemiesLogic>();
-        PickupBase.Pickups = new List<PickupBase>();
-        EntityBase.KillCounter = 0;
+        EntityBase.InitEnemiesList();
+        PickupBase.InitPickupList();
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
         PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         WaveSystem = gameObject.GetComponent<WaveSystem>();
@@ -35,7 +34,7 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!IsOnEnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnedEnemiesCount && !WaveSystem.IsOnWaveCooldown())
+        if (!IsOnEnemySpawnCooldown && PlayerLogic.IsAlive() && EntityBase.Enemies.Count < maxSpawnedEnemiesCount && !WaveSystem.WaveCooldown)
             StartCoroutine(nameof(SpawnEnemyCoroutine));
         if (!IsOnPickupSpawnCooldown && PlayerLogic.IsAlive())
             StartCoroutine(nameof(SpawnPickupCoroutine));
@@ -49,7 +48,7 @@ public class Spawner : MonoBehaviour
             Vector2 position = RollPosition();
             SpawnProbe sProbe = Instantiate(spawnProbe, position, Quaternion.identity).GetComponent<SpawnProbe>();
             yield return new WaitForSeconds(Time.fixedDeltaTime * 2); // Czas na wykrycie kolizji
-            if (!sProbe.CheckIfIsInMapCollider())
+            if (!sProbe.IsInMapCollider)
             {
                 Instantiate(enemies[Random.Range(0, enemies.Length)], position, quaternion.identity);
             }
@@ -68,7 +67,7 @@ public class Spawner : MonoBehaviour
             Vector2 position = RollPosition();
             SpawnProbe sProbe = Instantiate(spawnProbe, position, Quaternion.identity).GetComponent<SpawnProbe>();
             yield return new WaitForSeconds(Time.fixedDeltaTime * 2); // Czas na wykrycie kolizji
-            if (!sProbe.CheckIfIsInMapCollider())
+            if (!sProbe.IsInMapCollider)
             {
                 Instantiate(pickups[Random.Range(0, pickups.Length)], position, quaternion.identity);
             }

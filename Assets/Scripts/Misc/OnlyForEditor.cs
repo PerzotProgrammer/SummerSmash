@@ -40,7 +40,7 @@ public class OnlyForEditor : MonoBehaviour
             PlayerLogic.HealHp(-10000000);
             instaKill = false;
         }
-        if (invincibility && !PlayerLogic.HasMaxHp()) PlayerLogic.HealHp(PlayerLogic.GetMaxHp());
+        if (invincibility && !PlayerLogic.HasMaxHp()) PlayerLogic.HealHp(PlayerLogic.MaxHp);
         if (resetAmmunition)
         {
             for (int i = 0; i < WeaponLogic.MagazineState.Length; i++)

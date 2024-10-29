@@ -48,21 +48,21 @@ public class PlayerAnimation : MonoBehaviour
 
     private bool MovingRight()
     {
-        return PlayerLogic.GetMovementVector().x > 0;
+        return PlayerLogic.MovementVector.x > 0;
     }
 
     private bool MovingLeft()
     {
-        return PlayerLogic.GetMovementVector().x < 0;
+        return PlayerLogic.MovementVector.x < 0;
     }
 
     private bool MovingUp()
     {
-        return PlayerLogic.GetMovementVector().y > 0;
+        return PlayerLogic.MovementVector.y > 0;
     }
 
     private bool MovingDown()
     {
-        return PlayerLogic.GetMovementVector().y < 0;
+        return PlayerLogic.MovementVector.y < 0;
     }
 }

@@ -5,11 +5,15 @@ using UnityEngine;
 public class WaveSystem : MonoBehaviour
 {
     [SerializeField] private int enemiesInWaveCount;
+    private PlayerLogic PlayerLogic;
+    private WeaponLogic WeaponLogic;
+    public bool WaveCooldown { get; private set; }
     public static int WaveNumber;
-    private bool WaveCooldown;
 
     void Start()
     {
+        PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
+        WeaponLogic = GameObject.Find("WeaponParent").GetComponent<WeaponLogic>();
         WaveNumber = 1;
         WaveCooldown = false;
     }
@@ -24,6 +28,9 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator WaveClearedCoroutine()
     {
+        PlayerLogic.HealHp(PlayerLogic.MaxHp / 2);
+        PlayerLogic.AddMaxHp(20);
+        WeaponLogic.ReloadAllMagazines();
         WaveCooldown = true;
         enemiesInWaveCount = (enemiesInWaveCount + 10) + EntityBase.KillCounter; // Potem tu się da inny system
         DespawnAllEnemies();
@@ -37,10 +44,6 @@ public class WaveSystem : MonoBehaviour
         foreach (EnemiesLogic enemy in EntityBase.Enemies) Destroy(enemy.gameObject);
     }
 
-    public bool IsOnWaveCooldown()
-    {
-        return WaveCooldown;
-    }
 
     public int GetEnemiesInWaveCount()
     {

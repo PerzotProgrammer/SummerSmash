@@ -7,9 +7,10 @@ using Generation;
 
 public class PlayerLogic : EntityBase
 {
-    private void Start()
+    protected override void Start()
     {
-        InitBase();
+        base.Start();
+        KillCounter = 0;
     }
 
     private void FixedUpdate()
@@ -34,8 +35,8 @@ public class PlayerLogic : EntityBase
         float moveY = Input.GetAxisRaw("Vertical");
 
         MovementVector = new Vector2(moveX, moveY).normalized;
-        Rb.velocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
-        if (GetCurrentTileType() == TileType.Water) Rb.velocity *= 0.8f;
+        Rb.linearVelocity = new Vector2(MovementVector.x * speed, MovementVector.y * speed);
+        if (GetCurrentTileType() == TileType.Water) Rb.linearVelocity *= 0.8f;
     }
 
     public void SetHealthBar(HealthBar healthBar)
@@ -43,11 +44,17 @@ public class PlayerLogic : EntityBase
         HealthBar = healthBar;
     }
 
+    public void AddMaxHp(int amount)
+    {
+        MaxHp += amount;
+        HealthBar.UpdateHealthBar();
+    }
+
     protected override void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Enemies"))
         {
-            InflictDamage(other.gameObject.GetComponent<EntityBase>().GetColisionDamage());
+            InflictDamage(other.gameObject.GetComponent<EntityBase>().CollisionDamage);
         }
     }
 }

@@ -24,7 +24,7 @@ Gra mocno inspiruje się <b>Vampire Survivors</b>, lecz większość mechanik ch
 Raz na parę wersji, wypuścimy skompilowaną paczkę z grą, razem z mergem dev z main. Ta wersja będzie bardziej dopracowana i sprawdzona niż ta, zawarta bezpośrednio na gicie.
 Wersja bezpośrednia z kodu potrzebuje <b>Edytora Unity</b> dostępnego <a href="https://unity.com/download" target="_blank">tutaj</a>
 
-- aktualnie stosowana wersja Unity: <b>2022.3.32f1</b>
+- aktualnie stosowana wersja Unity: <b>6000.0.24f1</b>
 
 ## Autorzy
 

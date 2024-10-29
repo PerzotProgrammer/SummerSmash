@@ -7,7 +7,7 @@ public abstract class PickupBase : MonoBehaviour
 {
     protected float DespawnDistance;
     protected PlayerLogic PlayerLogic;
-    public static List<PickupBase> Pickups;
+    public static List<PickupBase> Pickups { get; private set; }
 
 
     private void Start()
@@ -29,10 +29,19 @@ public abstract class PickupBase : MonoBehaviour
     }
 
     protected abstract void OnTriggerEnter2D(Collider2D other);
-    protected abstract void Pickup(EntityBase entityBase);
+
+    protected virtual void Pickup(EntityBase entityBase)
+    {
+        Destroy(gameObject);
+    }
 
     private void OnDestroy()
     {
         Pickups.Remove(this);
+    }
+
+    public static void InitPickupList()
+    {
+        Pickups = new List<PickupBase>();
     }
 }

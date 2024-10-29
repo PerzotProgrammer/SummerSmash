@@ -7,12 +7,12 @@ using UnityEngine;
 public class WeaponLogic : MonoBehaviour
 {
     [SerializeField] private GameObject[] weapons;
-    private GameObject CurrentWeapon;
-    private GameObject ClosestEnemy;
     private float ClosestDistance;
     private bool IsFacingLeft;
-    private int CurrentWeaponIndex;
-    public static int[] MagazineState;
+    public GameObject CurrentWeapon { get; private set; }
+    public GameObject Target { get; private set; }
+    public int CurrentWeaponIndex { get; private set; }
+    public static int[] MagazineState { get; private set; }
 
 
     private void Start()
@@ -33,7 +33,7 @@ public class WeaponLogic : MonoBehaviour
     private void FindTarget()
     {
         ClosestDistance = Mathf.Infinity;
-        ClosestEnemy = null;
+        Target = null;
         foreach (EnemiesLogic enemy in EntityBase.Enemies)
         {
             if (!enemy) continue;
@@ -41,16 +41,16 @@ public class WeaponLogic : MonoBehaviour
             if (distance < ClosestDistance)
             {
                 ClosestDistance = distance;
-                ClosestEnemy = enemy.gameObject;
+                Target = enemy.gameObject;
             }
         }
     }
 
     private void MoveWeapon()
     {
-        if (!ClosestEnemy) return;
+        if (!Target) return;
         // Sposób sprawdzenia, czy obiekt istnieje w Unity. Cs-owe == null lub is null nie działa poprawnie. 
-        Vector2 direction = ClosestEnemy!.transform.position - transform.position;
+        Vector2 direction = Target!.transform.position - transform.position;
         float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(rotation, Vector3.forward);
         if (((rotation > 90 || rotation < -90) && !IsFacingLeft) || // Obrót w lewo
@@ -92,13 +92,11 @@ public class WeaponLogic : MonoBehaviour
         for (int i = 0; i < MagazineState.Length; i++) MagazineState[i] = -1;
     }
 
-    public GameObject GetTarget()
+    public void ReloadAllMagazines()
     {
-        return ClosestEnemy;
-    }
-
-    public int GetWeaponIndex()
-    {
-        return CurrentWeaponIndex;
+        // Mocno obejściowe rozwiązanie, ale działa
+        Destroy(CurrentWeapon);
+        for (int i = 0; i < MagazineState.Length; i++) MagazineState[i] = -1;
+        SetWeapon(CurrentWeaponIndex);
     }
 }

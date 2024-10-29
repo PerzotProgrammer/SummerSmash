@@ -39,7 +39,7 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateHealthBar()
     {
-        Slider.value = (float)EntityBase.GetHp() / EntityBase.GetMaxHp();
+        Slider.value = (float)EntityBase.Hp / EntityBase.MaxHp;
         if (EntityBase.HasMaxHp() && !EntityBase.CompareTag("Player")) HideHealthBar();
         else ShowHealthBar();
     }
