@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemiesLogic : EntityBase
 {
     [SerializeField] private float despawnDistance;
+    [SerializeField] private GameObject dyingEffectObject;
     private GameObject Player;
     private PlayerLogic PlayerLogic;
     private float Distance;
@@ -32,6 +33,8 @@ public class EnemiesLogic : EntityBase
         if (!IsAlive())
         {
             KillCounter += 1;
+            GameObject effect = Instantiate(dyingEffectObject, transform.position, Quaternion.identity);
+            Destroy(effect, 1.5f);
             Destroy(gameObject);
         }
     }

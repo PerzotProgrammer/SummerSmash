@@ -33,4 +33,8 @@ Wersja bezpośrednia z kodu potrzebuje <b>Edytora Unity</b> dostępnego <a href=
 
 Jesteśmy uczniami Technikum nr 19 imienia Marszałka Józefa Piłsudskiego w Poznaniu.
 
-<i>Projekt wolny kodowo, kraść jak popadnie!</i>
+## Licencje
+
+- Oprogramowanie gry jak i inne nasze assety są pod licencją <a href="https://unlicense.org/">Unlicense</a>
+- Dzwięk stworzony przez <a href="https://freesound.org/people/LittleRobotSoundFactory/">LittleRobotSoundFactory</a> pod licencją <a href="https://creativecommons.org/licenses/by/4.0/
+">Attribution 4.0</a> 

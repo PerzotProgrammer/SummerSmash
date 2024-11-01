@@ -7,6 +7,7 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private int enemiesInWaveCount;
     private PlayerLogic PlayerLogic;
     private WeaponLogic WeaponLogic;
+    private AudioSource WaveClearedSound;
     public bool WaveCooldown { get; private set; }
     public static int WaveNumber;
 
@@ -14,6 +15,7 @@ public class WaveSystem : MonoBehaviour
     {
         PlayerLogic = GameObject.Find("Player").GetComponent<PlayerLogic>();
         WeaponLogic = GameObject.Find("WeaponParent").GetComponent<WeaponLogic>();
+        WaveClearedSound = GetComponent<AudioSource>();
         WaveNumber = 1;
         WaveCooldown = false;
     }
@@ -28,13 +30,14 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator WaveClearedCoroutine()
     {
-        PlayerLogic.HealHp(PlayerLogic.MaxHp / 2);
         PlayerLogic.AddMaxHp(20);
+        PlayerLogic.HealHp(PlayerLogic.MaxHp / 2);
         WeaponLogic.ReloadAllMagazines();
         WaveCooldown = true;
         enemiesInWaveCount = (enemiesInWaveCount + 10) + EntityBase.KillCounter; // Potem tu się da inny system
         DespawnAllEnemies();
         WaveNumber++;
+        WaveClearedSound.Play();
         yield return new WaitForSeconds(10);
         WaveCooldown = false;
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class PickupBase : MonoBehaviour
 {
+    [SerializeField] private GameObject pickupEffect;
     protected float DespawnDistance;
     protected PlayerLogic PlayerLogic;
     public static List<PickupBase> Pickups { get; private set; }
@@ -32,6 +33,8 @@ public abstract class PickupBase : MonoBehaviour
 
     protected virtual void Pickup(EntityBase entityBase)
     {
+        GameObject effect = Instantiate(pickupEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 1.0f);
         Destroy(gameObject);
     }
 

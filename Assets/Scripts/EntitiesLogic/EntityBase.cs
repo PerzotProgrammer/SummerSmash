@@ -10,10 +10,12 @@ public abstract class EntityBase : MonoBehaviour
     [SerializeField] protected int startingHp;
     [SerializeField] protected int startingCollisionDamage;
     [SerializeField] protected float speed;
+    [SerializeField] protected AudioClip hitSound;
     private bool IsOnDamageCooldown;
     private Tilemap Tilemap;
     protected HealthBar HealthBar;
     protected Rigidbody2D Rb;
+    protected AudioSource AudioSource;
     public static int KillCounter { get; protected set; }
     public static List<EnemiesLogic> Enemies { get; protected set; }
     public int Hp { get; protected set; }
@@ -27,6 +29,8 @@ public abstract class EntityBase : MonoBehaviour
         IsOnDamageCooldown = true;
         Hp -= damage;
         HealthBar.UpdateHealthBar();
+        AudioSource.clip = hitSound;
+        AudioSource.Play();
         yield return new WaitForSeconds(0.5f); // Cooldown "taranowania"
         IsOnDamageCooldown = false;
     }
@@ -44,6 +48,7 @@ public abstract class EntityBase : MonoBehaviour
     protected virtual void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
+        AudioSource = GetComponent<AudioSource>();
         CollisionDamage = startingCollisionDamage;
         MaxHp = startingHp;
         Hp = MaxHp;
@@ -90,7 +95,7 @@ public abstract class EntityBase : MonoBehaviour
     }
 
     protected abstract void OnCollisionStay2D(Collision2D other);
-    
+
     public static void InitEnemiesList()
     {
         Enemies = new List<EnemiesLogic>();
