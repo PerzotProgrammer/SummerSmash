@@ -12,15 +12,10 @@ public class SpawnProbe : MonoBehaviour
 
     private void Start()
     {
-        Tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        Tilemap = GameObject.Find("Grid").GetComponent<Tilemap>();
         // Tutaj na razie dlatego, że nie mam colliderów a undefined jest poza granicą mapy
         IsInMapCollider = GetCurrentTileType() == TileType.Undefined;
         Destroy(gameObject, Time.fixedDeltaTime * 3);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("MapCollider")) IsInMapCollider = true;
     }
 
     protected TileType GetCurrentTileType()

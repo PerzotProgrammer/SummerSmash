@@ -52,7 +52,7 @@ public abstract class EntityBase : MonoBehaviour
         CollisionDamage = startingCollisionDamage;
         MaxHp = startingHp;
         Hp = MaxHp;
-        Tilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
+        Tilemap = GameObject.Find("Grid").GetComponent<Tilemap>();
     }
 
     protected void Stay()

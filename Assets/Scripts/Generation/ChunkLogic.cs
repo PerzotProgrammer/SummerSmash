@@ -1,0 +1,104 @@
+using Generation;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+
+public class ChunkLogic : MonoBehaviour
+{
+    [SerializeField] private float renderDistance;
+    [SerializeField] private int featuresProbabilityMaxRange;
+    private static GameObject Player;
+    private TilemapRenderer TilemapRenderer;
+    private Tilemap GroundTilemap;
+    private Tilemap GroundFeaturesTilemap;
+    private GameObject ObjectFeatures;
+    private float Distance;
+    private bool IsRendered;
+    private bool WasInitialized;
+    private int XOffset;
+    private int YOffset;
+
+    private void Start()
+    {
+        Player = GameObject.Find("Player");
+        TilemapRenderer = GetComponent<TilemapRenderer>();
+        GroundTilemap = GetComponent<Tilemap>();
+        GroundFeaturesTilemap = transform.Find("GroundFeatures").GetComponent<Tilemap>();
+        ObjectFeatures = transform.Find("ObjectFeatures").gameObject;
+        ObjectFeatures.SetActive(false);
+    }
+
+    private void FixedUpdate()
+    {
+        bool renderCheck = CheckDistanceForRendering();
+        if (renderCheck && !IsRendered) RenderChunk();
+        else if (!renderCheck && IsRendered) HideChunk();
+    }
+
+    private void RenderChunk()
+    {
+        if (WasInitialized)
+        {
+            TilemapRenderer.enabled = true;
+            ObjectFeatures.SetActive(true);
+            IsRendered = true;
+            return;
+        }
+
+        for (int x = XOffset; x < MapGenerator.ChunkSize + XOffset; x++)
+        {
+            int localX = x - XOffset;
+            for (int y = YOffset; y < MapGenerator.ChunkSize + YOffset; y++)
+            {
+                int localY = y - YOffset;
+                TileType tileType;
+                TileBase tile;
+
+                if (MapGenerator.NoiseArray[x, y] > 0.5f)
+                {
+                    tile = MapGenerator.GroundAutoTile;
+                    tileType = TileType.Ground;
+                }
+                else
+                {
+                    tile = MapGenerator.WaterAutoTile;
+                    tileType = TileType.Water;
+                }
+
+                Vector3Int tilePosition = new Vector3Int(localX, localY, 0);
+                // TODO: Niech to działa
+                // TODO: Granice chunków
+                // if (tileType == TileType.Ground && Random.Range(0, featuresProbabilityMaxRange) == 0)
+                // {
+                //     GroundFeaturesTilemap.SetTile(tilePosition,
+                //         MapGenerator.GroundFeatures[Random.Range(0, MapGenerator.GroundFeatures.Length)]);
+                // }
+
+                GroundTilemap.SetTile(tilePosition, tile);
+                MapGenerator.TileTypes.Add(new Vector3Int(x, y), tileType);
+            }
+        }
+
+        WasInitialized = true;
+        IsRendered = true;
+    }
+
+    private void HideChunk()
+    {
+        TilemapRenderer.enabled = false;
+        ObjectFeatures.SetActive(false);
+        IsRendered = false;
+    }
+
+    private bool CheckDistanceForRendering()
+    {
+        Distance = Vector2.Distance(transform.position, Player.transform.position);
+        if (Distance < renderDistance) return true;
+        return false;
+    }
+
+    public void SetXYOffset(int x, int y)
+    {
+        XOffset = x;
+        YOffset = y;
+    }
+}
