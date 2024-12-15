@@ -5,12 +5,14 @@ using UnityEngine.Tilemaps;
 public class ChunkLogic : MonoBehaviour
 {
     [SerializeField] private float renderDistance;
-    [SerializeField] private int featuresProbabilityMaxRange;
+    [SerializeField] private int groundFeaturesProbabilityMaxRange;
+    [SerializeField] private int objectFeaturesProbabilityMaxRange;
     private static GameObject Player;
     private TilemapRenderer TilemapRenderer;
+    private TilemapRenderer GroundFeaturesTilemapRenderer;
     private Tilemap GroundTilemap;
     private Tilemap GroundFeaturesTilemap;
-    private GameObject ObjectFeatures;
+    private GameObject ObjectFeaturesParent;
     private float Distance;
     private bool IsRendered;
     private bool WasInitialized;
@@ -21,10 +23,10 @@ public class ChunkLogic : MonoBehaviour
     {
         Player = GameObject.Find("Player");
         TilemapRenderer = GetComponent<TilemapRenderer>();
+        GroundFeaturesTilemapRenderer = transform.Find("GroundFeatures").GetComponent<TilemapRenderer>();
         GroundTilemap = GetComponent<Tilemap>();
         GroundFeaturesTilemap = transform.Find("GroundFeatures").GetComponent<Tilemap>();
-        ObjectFeatures = transform.Find("ObjectFeatures").gameObject;
-        ObjectFeatures.SetActive(false);
+        ObjectFeaturesParent = transform.Find("ObjectFeatures").gameObject;
     }
 
     private void FixedUpdate()
@@ -39,11 +41,17 @@ public class ChunkLogic : MonoBehaviour
         if (WasInitialized)
         {
             TilemapRenderer.enabled = true;
-            ObjectFeatures.SetActive(true);
+            GroundFeaturesTilemapRenderer.enabled = true;
+            ObjectFeaturesParent.SetActive(true);
             IsRendered = true;
             return;
         }
 
+        InitializeChunk();
+    }
+
+    private void InitializeChunk()
+    {
         for (int x = XOffset; x < MapGenerator.ChunkSize + XOffset; x++)
         {
             int localX = x - XOffset;
@@ -65,13 +73,20 @@ public class ChunkLogic : MonoBehaviour
                 }
 
                 Vector3Int tilePosition = new Vector3Int(localX, localY, 0);
-                // TODO: Niech to działa
-                // TODO: Granice chunków
-                // if (tileType == TileType.Ground && Random.Range(0, featuresProbabilityMaxRange) == 0)
-                // {
-                //     GroundFeaturesTilemap.SetTile(tilePosition,
-                //         MapGenerator.GroundFeatures[Random.Range(0, MapGenerator.GroundFeatures.Length)]);
-                // }
+
+                if (tileType == TileType.Ground && Random.Range(0, objectFeaturesProbabilityMaxRange) == 0)
+                {
+                    Instantiate(MapGenerator.ObjectFeatures[Random.Range(0, MapGenerator.ObjectFeatures.Length)],
+                        new Vector3(ObjectFeaturesParent.transform.position.x + localX,
+                            ObjectFeaturesParent.transform.position.y + localY, 0), Quaternion.identity,
+                        ObjectFeaturesParent.transform);
+                }
+
+                if (tileType == TileType.Ground && Random.Range(0, groundFeaturesProbabilityMaxRange) == 0)
+                {
+                    GroundFeaturesTilemap.SetTile(tilePosition,
+                        MapGenerator.GroundFeatures[Random.Range(0, MapGenerator.GroundFeatures.Length)]);
+                }
 
                 GroundTilemap.SetTile(tilePosition, tile);
                 MapGenerator.TileTypes.Add(new Vector3Int(x, y), tileType);
@@ -85,7 +100,8 @@ public class ChunkLogic : MonoBehaviour
     private void HideChunk()
     {
         TilemapRenderer.enabled = false;
-        ObjectFeatures.SetActive(false);
+        GroundFeaturesTilemapRenderer.enabled = false;
+        ObjectFeaturesParent.SetActive(false);
         IsRendered = false;
     }
 
