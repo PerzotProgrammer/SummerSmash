@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e47a6a6c98180d4494ea7205f9f08f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invincibility: 0
+  invincibility: 1
   unlimitedAmmunition: 0
   resetAmmunition: 0
   instaKill: 0
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 5270958940758628174, guid: a6ab1da92ac1f1141826c2f4a21842bb, type: 3}
-  - {fileID: 5270958940758628174, guid: a6ab1da92ac1f1141826c2f4a21842bb, type: 3}
+  - {fileID: 5270958940758628174, guid: 4ed98d477a5e18745b3fede8f227ebb1, type: 3}
   pickups:
   - {fileID: 6857674262590298075, guid: 9871ffe3edc87754482a87a6cdc3081a, type: 3}
   - {fileID: 6857674262590298075, guid: 214b53a1650494b4ea584a4414b461ed, type: 3}

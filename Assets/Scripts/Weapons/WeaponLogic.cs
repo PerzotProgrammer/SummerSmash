@@ -34,7 +34,7 @@ public class WeaponLogic : MonoBehaviour
     {
         ClosestDistance = Mathf.Infinity;
         Target = null;
-        foreach (EnemiesLogic enemy in EntityBase.Enemies)
+        foreach (EntityBase enemy in EntityBase.Enemies)
         {
             if (!enemy) continue;
             float distance = (enemy.transform.position - transform.position).sqrMagnitude;

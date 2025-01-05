@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemiesLogic : EntityBase
+public class WaterBubble : EntityBase
 {
     [SerializeField] private float despawnDistance;
     [SerializeField] private GameObject dyingEffectObject;

@@ -44,7 +44,7 @@ public class WaveSystem : MonoBehaviour
 
     private void DespawnAllEnemies()
     {
-        foreach (EnemiesLogic enemy in EntityBase.Enemies) Destroy(enemy.gameObject);
+        foreach (EntityBase enemy in EntityBase.Enemies) Destroy(enemy.gameObject);
     }
 
 

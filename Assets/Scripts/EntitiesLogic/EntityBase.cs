@@ -17,7 +17,7 @@ public abstract class EntityBase : MonoBehaviour
     protected Rigidbody2D Rb;
     protected AudioSource AudioSource;
     public static int KillCounter { get; protected set; }
-    public static List<EnemiesLogic> Enemies { get; protected set; }
+    public static List<EntityBase> Enemies { get; protected set; }
     public int Hp { get; protected set; }
     public int MaxHp { get; protected set; }
     public int CollisionDamage { get; protected set; }
@@ -98,6 +98,6 @@ public abstract class EntityBase : MonoBehaviour
 
     public static void InitEnemiesList()
     {
-        Enemies = new List<EnemiesLogic>();
+        Enemies = new List<EntityBase>();
     }
 }

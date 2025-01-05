@@ -1,0 +1,83 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CrabLogic : EntityBase
+{
+    [SerializeField] private float despawnDistance;
+    [SerializeField] private GameObject dyingEffectObject;
+    private GameObject Player;
+    private PlayerLogic PlayerLogic;
+    private float Distance;
+    private bool MovementType; // true — wertykalny, false — horyzontalny
+
+
+    protected override void Start()
+    {
+        base.Start();
+        Enemies.Add(this);
+        Player = GameObject.Find("Player");
+        PlayerLogic = Player.GetComponent<PlayerLogic>();
+        HealthBar = GetComponentInChildren<HealthBar>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (PlayerLogic.IsAlive())
+        {
+            FollowPlayer();
+            DespawnIfTooFar();
+        }
+        else Stay();
+
+        if (!IsAlive())
+        {
+            KillCounter += 1;
+            GameObject effect = Instantiate(dyingEffectObject, transform.position, Quaternion.identity);
+            Destroy(effect, 1.5f);
+            Destroy(gameObject);
+        }
+    }
+
+
+    protected override void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            InflictDamage(other.gameObject.GetComponent<EntityBase>().CollisionDamage);
+            Stay(); // Naprawia problem z poruszaniem się wroga po jego dotknięciu
+        }
+    }
+
+    private void FollowPlayer()
+    {
+        float playerX = Player.transform.position.x;
+        float playerY = Player.transform.position.y;
+        if (Math.Abs(transform.position.x - playerX) < 0.5)
+        {
+            MovementType = true;
+        }
+        else if (Math.Abs(transform.position.y - playerY) < 0.5)
+        {
+            MovementType = false;
+        }
+
+        transform.position = Vector2.MoveTowards(transform.position,
+            MovementType
+                ? new Vector2(transform.position.x, playerY)
+                : new Vector2(playerX, transform.position.y),
+            speed * Time.fixedDeltaTime);
+    }
+
+    private void DespawnIfTooFar()
+    {
+        Distance = Vector2.Distance(transform.position, Player.transform.position);
+        if (Distance > despawnDistance) Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Enemies.Remove(this);
+    }
+}
